@@ -3,7 +3,7 @@ import random
 from init.gameinitializers import *
 
 
-class Orange(pygame.sprite.Sprite):
+class Carrier(pygame.sprite.Sprite):
     # Constructor. Pass in the color of the block,
     # and its x and y position
     def __init__(self, color, width, height):
@@ -13,7 +13,7 @@ class Orange(pygame.sprite.Sprite):
         # This could also be an image loaded from the disk.
         self.image = pygame.Surface([width, height])
         self.image.fill(WHITE)
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(RED)
         pygame.draw.ellipse(self.image, color, [0, 0, width, height])
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(WIDTH)
