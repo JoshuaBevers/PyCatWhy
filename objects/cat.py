@@ -1,9 +1,5 @@
 import pygame
-
-#replace with import when init is finished
-WIDTH = 780
-HEIGHT = 780
-BLUE = (0, 0, 255)
+from init.gameinitalizers import *
 
 class Cat(pygame.sprite.Sprite):
     def __init__(self):

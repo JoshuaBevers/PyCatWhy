@@ -1,25 +1,10 @@
 import pygame
 import random
-from objects.cat import *
-
-WIDTH = 780
-HEIGHT = 780
-FPS = 30
+from init.gameinitalizers import *
+from objects.cat import Cat
 
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
-# Adds the cat to the field
-
-# define colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-
-
-# Space allocated for classes >>>>>>> This should be added to its own file and inported at the top for cleaner code.
-# This will hang around until we have a harder grasp on how pygame works.
 
 
                
@@ -35,7 +20,6 @@ pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My Game")
-clock = pygame.time.Clock()
 
 
 # Game loop
