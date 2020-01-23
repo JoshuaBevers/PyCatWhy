@@ -4,8 +4,8 @@ from init.gameinitializers import *
 class Cat(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((40, 34))
-        self.image.fill(BLUE)
+        self.image = pygame.Surface((40, 34), pygame.SRCALPHA, 32)
+        self.image.convert_alpha()
         self.sitting = pygame.image.load('images/catspritesx2-transparent-sitting.png')
         self.running = [pygame.image.load('images/catspritesx2-transparent-running1.png'), pygame.image.load('images/catspritesx2-transparent-running2.png')]
         self.running_sprite = self.running[0]
@@ -13,6 +13,7 @@ class Cat(pygame.sprite.Sprite):
         self.rect.center = CAT_START
         self.direction_x = "LEFT"
         self.direction_y = "UP"
+        self.meow = pygame.mixer.Sound('sounds/cat-meow.wav')
 
 
     def update(self):
@@ -38,13 +39,17 @@ class Cat(pygame.sprite.Sprite):
         if point == "top_left":
             self.direction_x = "RIGHT"
             self.direction_y = "DOWN"
+            self.meow.play()
         elif point == "top_right":
             self.direction_x = "LEFT"
             self.direction_y = "DOWN"
+            self.meow.play()
         elif point == "bottom_left":
             self.direction_x = "RIGHT"
             self.direction_y = "UP"
+            self.meow.play()
         elif point == "bottom_right":
             self.direction_x = "LEFT"
             self.direction_y = "UP"
+            self.meow.play()
 

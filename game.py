@@ -5,6 +5,7 @@ from init.gameinitializers import *
 
 from objects.cat import *
 from objects.click_box import *
+from objects.background import *
 
 
 # Initialize pygame and create window
@@ -15,16 +16,24 @@ pygame.display.set_caption("PyCatWhy?!")
 
 
 # Space allocated for creating and adding variables.
+bg = Background()
 cat = Cat()
+
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
 bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
+
 clock = pygame.time.Clock()
+
 all_sprites = pygame.sprite.Group()
 click_boxes = pygame.sprite.Group()
 all_sprites.add(cat)
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
+
+# Start music!
+bg.start_music()
+
 
 ### Game loop ###
 running = True
@@ -58,6 +67,7 @@ while running:
 
     # Draw / render
     screen.fill(BLACK)
+    screen.blit(bg.background, bg.rect)
     all_sprites.draw(screen)
     click_boxes.draw(screen)
 
@@ -73,4 +83,5 @@ while running:
 
 
 # Pygame end
+ppygame.mixer.quit()
 pygame.quit()
