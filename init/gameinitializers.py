@@ -6,6 +6,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+CLEAR = (0, 0, 0, 0)
 
 # define game screen sizing and fps
 WIDTH = 780
@@ -22,3 +23,8 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
+
+# define the cat start point
+
+CAT_START = (WIDTH // 2, HEIGHT // 2)
+CAT_SPEED = 3
