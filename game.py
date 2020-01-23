@@ -36,7 +36,6 @@ pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My Game")
-clock = pygame.time.Clock()
 
 
 # Game loop
