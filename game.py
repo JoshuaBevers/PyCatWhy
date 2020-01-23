@@ -1,24 +1,9 @@
 import pygame
 import random
-
-WIDTH = 1260
-HEIGHT = 920
-FPS = 30
+from init.gameinitalizers import *
 
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
-# Adds the cat to the field
-
-# define colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-
-
-# Space allocated for classes >>>>>>> This should be added to its own file and inported at the top for cleaner code.
-# This will hang around until we have a harder grasp on how pygame works.
 
 
 class Cat(pygame.sprite.Sprite):
@@ -27,7 +12,7 @@ class Cat(pygame.sprite.Sprite):
         self.image = pygame.Surface((50, 50))
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT / 2)
+        self.rect.center = (WIDTH // 2, HEIGHT // 2)
         self.direction = "LEFT"
 
     def update(self):
@@ -51,7 +36,6 @@ pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My Game")
-clock = pygame.time.Clock()
 
 
 # Game loop
