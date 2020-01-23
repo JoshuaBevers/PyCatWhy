@@ -4,20 +4,10 @@ import pygame
 import sys
 import time
 import random
-from init.gameinitalizers import *
-from objects.cat import Cat
-from objects.orange import Orange
-from os import path
-from sounds import *
-from pygame import mixer
+from init.gameinitializers import *
 
-# Space allocated for creating and adding variables.
-cat = Cat()
-orange = Orange(GREEN, 20, 15)
-clock = pygame.time.Clock()
-all_sprites = pygame.sprite.Group()
-all_sprites.add(cat)
-orangeOBT = pygame.sprite.Group()
+from objects.cat import *
+from objects.click_box import *
 
 # pygame.mixer.pre_init(44100, 16, 2, 4096)
 # Initialize pygame and create window
@@ -44,6 +34,18 @@ def create_orange():
     all_sprites.add(orange)
 
 
+# Space allocated for creating and adding variables.
+cat = Cat()
+top_left = Click_Box('top_left')
+top_right = Click_Box('top_right')
+bottom_left = Click_Box('bottom_left')
+bottom_right = Click_Box('bottom_right')
+clock = pygame.time.Clock()
+all_sprites = pygame.sprite.Group()
+click_boxes = pygame.sprite.Group()
+all_sprites.add(cat)
+click_boxes.add(top_left, top_right, bottom_left, bottom_right)
+
 ### Game loop ###
 running = True
 while running:
@@ -67,26 +69,35 @@ while running:
         elif event.type == pygame.QUIT:
             running = False
 
+        # clicking on cat
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            if top_left.rect.collidepoint(x, y):
+                cat.change_direction('top_left')
+            if top_right.rect.collidepoint(x, y):
+                cat.change_direction('top_right')
+            if bottom_left.rect.collidepoint(x, y):
+                cat.change_direction('bottom_left')
+            if bottom_right.rect.collidepoint(x, y):
+                cat.change_direction('bottom_right')
+
     # Update
     all_sprites.update()
-    orangeOBT.update()
+    click_boxes.update(cat)
 
     # Draw / render
     screen.fill(BLACK)
     all_sprites.draw(screen)
-    orangeOBT.draw(screen)
+    click_boxes.draw(screen)
+
+    if cat.running_sprite == cat.running[0] and cat.rect.x % 50 == 0:
+        cat.running_sprite = cat.running[1]
+    elif cat.running_sprite == cat.running[1] and cat.rect.x % 50 == 0:
+        cat.running_sprite = cat.running[0]
+    screen.blit(cat.running_sprite, cat.rect)
 
     # *after* drawing everything, flip the display
     pygame.display.flip()
-
-    # possibly spawns in an orange.
-
-    # Get mouse button state and mouse position if pressed
-    if pygame.mouse.get_pressed()[0]:
-        mouse_coords = pygame.mouse.get_pos()
-        mouse_position = [int(mouse_coords[0]), int(mouse_coords[1])]
-
-        print(mouse_position)
 
 
 # Pygame end
