@@ -10,6 +10,6 @@ class Background(pygame.sprite.Sprite):
         self.music = pygame.mixer.music
 
     def start_music(self):
-        self.music.load('sounds/Undertale-Megalovania.mp3')
+        self.music.load('sounds/Mus-zz-megalovania.ogg')
         self.music.play(-1)
 

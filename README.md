@@ -13,7 +13,10 @@ Zach, Karley, and Josh's Pygame Shenanigans
 
 Sounds/Music:
 * **cat-meow.wav** - http://www.wavsource.com/snds_2018-06-03_5106726768923853/animals/cat_meow2.wav 
+* **cat-screech.wav** - http://www.wavsource.com/snds_2018-06-03_5106726768923853/animals/cat_screech.wav
+* **cat-growl.wav** - http://www.wavsource.com/snds_2018-06-03_5106726768923853/animals/cat_growl.wav
 * **Undertale-Megalovania** - https://www.soundboard.com/sb/sound/1026165
+* **Mus-zz-megalovania.ogg** - https://undertale.fandom.com/wiki/MEGALOVANIA
 
 Art:
 * **Cat sprites** - https://opengameart.org/content/cat-sprites
