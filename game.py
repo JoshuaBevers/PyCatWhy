@@ -1,8 +1,9 @@
 import pygame
 import random
+from objects.cat import *
 
-WIDTH = 1260
-HEIGHT = 920
+WIDTH = 780
+HEIGHT = 780
 FPS = 30
 
 clock = pygame.time.Clock()
@@ -21,24 +22,7 @@ BLUE = (0, 0, 255)
 # This will hang around until we have a harder grasp on how pygame works.
 
 
-class Cat(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 50))
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT / 2)
-        self.direction = "LEFT"
-
-    def update(self):
-        if self.direction == "LEFT":
-            self.rect.x += 5
-            if self.rect.right >= WIDTH:
-                self.direction = "RIGHT"
-        if self.direction == "RIGHT":
-            self.rect.x -= 5
-            if self.rect.left <= 0:
-                self.direction = "LEFT"
+               
 
 
 # Space allocated for creating and adding variables.
