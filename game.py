@@ -8,6 +8,7 @@ import random
 from init.gameinitializers import *
 from objects.cat import *
 from objects.click_box import *
+from objects.background import *
 
 # pygame.mixer.pre_init(44100, 16, 2, 4096)
 # Initialize pygame and create window
@@ -28,6 +29,7 @@ pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 
 
 # Space allocated for creating and adding variables.
+bg = Background()
 cat = Cat()
 orange = Orange(GREEN, 40, 40)
 
@@ -35,7 +37,9 @@ top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
 bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
+
 clock = pygame.time.Clock()
+
 all_sprites = pygame.sprite.Group()
 click_boxes = pygame.sprite.Group()
 obsticals = pygame.sprite.Group()
@@ -43,6 +47,10 @@ all_sprites.add(cat)
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
 
 
+# Start music!
+bg.start_music()
+
+# Create functions
 def cattitude(surf, x, y, pct):
     if pct < 0:
         pct = 0
@@ -53,7 +61,6 @@ def cattitude(surf, x, y, pct):
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
     pygame.draw.rect(surf, RED, fill_rect)
     pygame.draw.rect(surf, BLACK, outline_rect, 2)
-
 
 def create_orange():
     all_sprites.add(orange)
@@ -136,7 +143,9 @@ while running:
     click_boxes.update(cat)
 
     # Draw / render
-    screen.fill(BLUE)
+    screen.fill(BLACK)
+    screen.blit(bg.background, bg.rect)
+
     all_sprites.draw(screen)
     click_boxes.draw(screen)
     cattitude(screen, 350, 10, cat.anger)
@@ -152,4 +161,5 @@ while running:
 
 
 # Pygame end
+ppygame.mixer.quit()
 pygame.quit()
