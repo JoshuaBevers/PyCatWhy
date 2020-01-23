@@ -10,9 +10,9 @@ from objects.cat import Cat
 
 # Space allocated for creating and adding variables.
 cat = Cat()
-all_sprites.add(cat)
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
+all_sprites.add(cat)
 
 
 # Initialize pygame and create window
@@ -36,7 +36,6 @@ while running:
             running = False
 
     # Update
-
     all_sprites.update()
 
     # Draw / render
