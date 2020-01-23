@@ -1,3 +1,12 @@
+from pygame.locals import (
+    K_UP,
+    K_DOWN,
+    K_LEFT,
+    K_RIGHT,
+    K_ESCAPE,
+    KEYDOWN,
+    QUIT,
+)
 import pygame
 
 # define colors
@@ -11,18 +20,9 @@ CLEAR = (0, 0, 0, 0)
 # define game screen sizing and fps
 WIDTH = 780
 HEIGHT = 780
-FPS = 30
+FPS = 40
 
 # Import pygame.locals to establish necessary key commands
-from pygame.locals import (
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
-)
 
 # define the cat start point and speed
 
