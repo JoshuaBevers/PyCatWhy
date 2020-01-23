@@ -2,14 +2,17 @@
 import pygame
 import random
 from init.gameinitializers import *
+
 from objects.cat import *
 from objects.click_box import *
+
 
 # Initialize pygame and create window
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("PyCatWhy?!")
+
 
 # Space allocated for creating and adding variables.
 cat = Cat()
@@ -35,6 +38,7 @@ while running:
             running = False
         elif event.type == pygame.QUIT:
             running = False
+
         # clicking on cat
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
@@ -49,7 +53,6 @@ while running:
             
 
     # Update
-
     all_sprites.update()
     click_boxes.update(cat)
 
@@ -58,15 +61,15 @@ while running:
     all_sprites.draw(screen)
     click_boxes.draw(screen)
 
+    if cat.running_sprite == cat.running[0] and cat.rect.x % 50 == 0:
+        cat.running_sprite = cat.running[1]
+    elif cat.running_sprite == cat.running[1] and cat.rect.x % 50 == 0:
+        cat.running_sprite = cat.running[0]
+    screen.blit(cat.running_sprite, cat.rect)
+
+
     # *after* drawing everything, flip the display
     pygame.display.flip()
-
-    # Get mouse button state and mouse position if pressed
-    if pygame.mouse.get_pressed()[0]:
-        mouse_coords = pygame.mouse.get_pos()
-        mouse_position = [int(mouse_coords[0]), int(mouse_coords[1])]
-        
-        print(mouse_position)
 
 
 # Pygame end

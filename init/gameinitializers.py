@@ -24,7 +24,7 @@ from pygame.locals import (
     QUIT,
 )
 
-# define the cat start point
+# define the cat start point and speed
 
 CAT_START = (WIDTH // 2, HEIGHT // 2)
 CAT_SPEED = 3
