@@ -75,6 +75,13 @@ while running:
     # *after* drawing everything, flip the display
     pygame.display.flip()
 
+    # Get mouse button state and mouse position if pressed
+    if pygame.mouse.get_pressed()[0]:
+        mouse_coords = pygame.mouse.get_pos()
+        mouse_position = [int(mouse_coords[0]), int(mouse_coords[1])] ### WIP - NEED TO CHECK COORD ADJUSTMENTS ###
+        
+        print(mouse_position)
+
 # Sprite Variables
 cat = Cat()
 all_sprites.add(cat)
