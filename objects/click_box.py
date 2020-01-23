@@ -1,6 +1,7 @@
 import pygame
 from init.gameinitializers import *
 
+
 class Click_Box(pygame.sprite.Sprite):
     def __init__(self, location):
         pygame.sprite.Sprite.__init__(self)
@@ -26,5 +27,3 @@ class Click_Box(pygame.sprite.Sprite):
             self.rect.topright = cat.rect.center
         else:
             self.rect.topleft = cat.rect.center
-
-    

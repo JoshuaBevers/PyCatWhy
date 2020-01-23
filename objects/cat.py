@@ -15,6 +15,7 @@ class Cat(pygame.sprite.Sprite):
         self.rect.center = CAT_START
         self.direction_x = "LEFT"
         self.direction_y = "UP"
+        self.anger = 0
 
     def update(self):
         # interact with screen edges
