@@ -20,10 +20,7 @@ SPAWN_SPEED = 1000
 # sounds
 
 
-# If the loops is -1 then the music will repeat indefinitely.
-
 # timer var
-
 
 spawn_orange = pygame.USEREVENT + 1
 
@@ -44,6 +41,18 @@ click_boxes = pygame.sprite.Group()
 obsticals = pygame.sprite.Group()
 all_sprites.add(cat)
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
+
+
+def cattitude(surf, x, y, pct):
+    if pct < 0:
+        pct = 0
+    BAR_LENGTH = 160
+    BAR_HEIGHT = 30
+    fill = (pct / 100) * BAR_LENGTH
+    outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    pygame.draw.rect(surf, RED, fill_rect)
+    pygame.draw.rect(surf, BLACK, outline_rect, 2)
 
 
 def create_orange():
@@ -130,6 +139,7 @@ while running:
     screen.fill(BLUE)
     all_sprites.draw(screen)
     click_boxes.draw(screen)
+    cattitude(screen, 350, 10, cat.anger)
 
     if cat.running_sprite == cat.running[0] and cat.rect.x % 50 == 0:
         cat.running_sprite = cat.running[1]
