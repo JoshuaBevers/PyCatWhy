@@ -10,7 +10,10 @@ from objects.click_box import *
 from objects.background import *
 from objects.cat_carrier import *
 from objects.cat import *
+<<<<<<< HEAD
 from objects.menu import *
+=======
+>>>>>>> 0db23854d19fe0006e1032e5fa5f8e75bb91aabe
 
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
@@ -33,7 +36,10 @@ bg = Background()
 cat = Cat()
 goal = Carrier(BLACK, 100, 80)
 orange = Orange(POWER, 40, 40)
+<<<<<<< HEAD
 menu = Menu('images/title_screen.png')
+=======
+>>>>>>> 0db23854d19fe0006e1032e5fa5f8e75bb91aabe
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
