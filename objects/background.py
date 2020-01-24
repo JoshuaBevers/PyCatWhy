@@ -13,3 +13,5 @@ class Background(pygame.sprite.Sprite):
         self.music.load('sounds/Mus-zz-megalovania.ogg')
         self.music.play(-1)
 
+    def stop_music(self):
+        self.music.stop()
