@@ -31,7 +31,7 @@ pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 # Space allocated for creating and adding variables.
 bg = Background()
 cat = Cat()
-goal = Carrier(BLACK, 100, 80)
+goal = Carrier()
 orange = Orange(POWER, 40, 40)
 menu = Menu('images/title-scren.png')
 
@@ -71,7 +71,8 @@ bg.start_music()
 
 
 def angerRises():
-    cat.anger += 5
+    cat.anger += 10
+    cat.screech.play(fade_ms=1).fadeout(1000)
     print(cat.anger)
 
 
@@ -194,6 +195,7 @@ while running:
     all_sprites.draw(screen)
     click_boxes.draw(screen)
 
+    screen.blit(goal.sprite, goal.rect)
     screen.blit(cat.running_sprite, cat.rect)
 
     # Collision Check for obsticals
@@ -202,12 +204,10 @@ while running:
         angerRises()
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
-
         cat.level += 1
         print(cat.level)
-        o = Carrier(BLACK, 100, 80)
-        all_sprites.add(o)
-        carrier.add(o)
+        goal.respawn()
+        carrier.add(goal)
 
     # *after* drawing everything, flip the display
     pygame.display.flip()

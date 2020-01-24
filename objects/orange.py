@@ -12,8 +12,8 @@ class Orange(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
-        self.image = pygame.Surface([width, height])
-
+        self.image = pygame.Surface([width, height], pygame.SRCALPHA, 32)
+        self.image.convert_alpha()
         pygame.draw.ellipse(self.image, color, [0, 0, width, height])
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(WIDTH)
