@@ -5,7 +5,7 @@ from init.gameinitializers import *
 class Click_Box(pygame.sprite.Sprite):
     def __init__(self, location):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((20, 17), pygame.SRCALPHA, 32)
+        self.image = pygame.Surface((40, 34), pygame.SRCALPHA, 32)
         self.image.convert_alpha()
         self.rect = self.image.get_rect()
         self.location = location

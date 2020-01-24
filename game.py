@@ -168,18 +168,6 @@ while running:
     click_boxes.draw(screen)
     cattitude(screen, 350, 10, cat.anger)
 
-    # Collision
-    hits = pygame.sprite.groupcollide(obsticals, player, True, True)
-
-    hits = pygame.sprite.spritecollide(
-        obsticals, player, False, pygame.sprite.collideany())
-    if hits:
-        running = False
-
-    if cat.running_sprite == cat.running[0] and cat.rect.x % 50 == 0:
-        cat.running_sprite = cat.running[1]
-    elif cat.running_sprite == cat.running[1] and cat.rect.x % 50 == 0:
-        cat.running_sprite = cat.running[0]
     screen.blit(cat.running_sprite, cat.rect)
 
     # *after* drawing everything, flip the display
@@ -187,5 +175,5 @@ while running:
 
 
 # Pygame end
-ppygame.mixer.quit()
+pygame.mixer.quit()
 pygame.quit()
