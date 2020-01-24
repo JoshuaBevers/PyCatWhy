@@ -160,11 +160,7 @@ while running:
     all_sprites.draw(screen)
     click_boxes.draw(screen)
     cattitude(screen, 350, 10, cat.anger)
-
-    if cat.running_sprite == cat.running[0] and cat.rect.x % 50 == 0:
-        cat.running_sprite = cat.running[1]
-    elif cat.running_sprite == cat.running[1] and cat.rect.x % 50 == 0:
-        cat.running_sprite = cat.running[0]
+            
     screen.blit(cat.running_sprite, cat.rect)
 
     # *after* drawing everything, flip the display
@@ -172,5 +168,5 @@ while running:
 
 
 # Pygame end
-ppygame.mixer.quit()
+pygame.mixer.quit()
 pygame.quit()
