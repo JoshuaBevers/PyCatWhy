@@ -7,10 +7,14 @@ class Cat(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((80, 68), pygame.SRCALPHA, 32)
         self.image.convert_alpha()
-        self.sitting = pygame.image.load('images/catspritesx4-transparent-sitting.png')
-        self.waiting = pygame.image.load('images/catspritesx4-transparent-waiting.png')
-        self.running_left = [pygame.image.load('images/catspritesx4-transparent-running1.png'), pygame.image.load('images/catspritesx4-transparent-running2.png')]
-        self.running_right = [pygame.transform.flip(self.running_left[0], True, False), pygame.transform.flip(self.running_left[1], True, False)]
+        self.sitting = pygame.image.load(
+            'images/catspritesx4-transparent-sitting.png')
+        self.waiting = pygame.image.load(
+            'images/catspritesx4-transparent-waiting.png')
+        self.running_left = [pygame.image.load(
+            'images/catspritesx4-transparent-running1.png'), pygame.image.load('images/catspritesx4-transparent-running2.png')]
+        self.running_right = [pygame.transform.flip(
+            self.running_left[0], True, False), pygame.transform.flip(self.running_left[1], True, False)]
 
         self.running_sprite = self.running_left[0]
         self.rect = self.image.get_rect()
@@ -23,7 +27,6 @@ class Cat(pygame.sprite.Sprite):
         self.growl = pygame.mixer.Sound('sounds/cat-growl.wav')
 
         self.anger = 0
-
 
     def update(self):
         # interact with screen edges
@@ -75,4 +78,3 @@ class Cat(pygame.sprite.Sprite):
                     self.running_sprite = self.running_left[0]
                 elif self.direction_x == "RIGHT":
                     self.running_sprite = self.running_right[0]
-         
