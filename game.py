@@ -45,6 +45,7 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(cat)
 all_sprites.add(goal)
 
+
 # obstacle
 obstacle = pygame.sprite.Group()
 obstacle.add(orange)
@@ -57,6 +58,9 @@ player.add(cat)
 click_boxes = pygame.sprite.Group()
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
 
+# Cat Carrier
+carrier = pygame.sprite.Group()
+carrier.add(goal)
 
 # Start music!
 bg.start_music()
@@ -65,7 +69,7 @@ bg.start_music()
 
 
 def angerRises():
-    cat.anger += 10
+    cat.anger += 5
     print(cat.anger)
 
 
@@ -81,7 +85,7 @@ def cattitude(surf, x, y, pct):
     BAR_HEIGHT = 30
     fill = (pct / 100) * BAR_LENGTH
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    fill_rect = pygame.Rect(x + 3, y, fill, BAR_HEIGHT)
     pygame.draw.rect(surf, RED, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
@@ -100,10 +104,12 @@ while running:
     # Process input (events)
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
-            for i in range(1):
-                o = Orange(POWER, 20, 15)
-                all_sprites.add(o)
-                obstacle.add(o)
+            for i in range(cat.level):
+                if cat.level > len(obstacle):
+                    print(i)
+                    o = Orange(POWER, 20, 15)
+                    all_sprites.add(o)
+                    obstacle.add(o)
 
                 # calling the function wheever we get timer event.
 
@@ -166,6 +172,10 @@ while running:
                     if changeDir == 3:
                         cat.change_direction('top_left')
 
+    if cat.anger >= 100:
+        print("The cat has fucked off. As has your screen.")
+        running = False
+
     # Update
     all_sprites.update()
     click_boxes.update(cat)
@@ -179,10 +189,18 @@ while running:
 
     screen.blit(cat.running_sprite, cat.rect)
 
-    # Collision Check
+    # Collision Check for obsticals
     for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
         print("OWCH!")
         angerRises()
+
+    for unit in pygame.sprite.groupcollide(player, carrier, False, True):
+
+        cat.level += 1
+        print(cat.level)
+        o = Carrier(BLACK, 100, 80)
+        all_sprites.add(o)
+        carrier.add(o)
 
     # *after* drawing everything, flip the display
     pygame.display.flip()
