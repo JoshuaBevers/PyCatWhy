@@ -195,7 +195,6 @@ while running:
         angerRises()
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
-
         cat.level += 1
         print(cat.level)
         o = Carrier(BLACK, 100, 80)
