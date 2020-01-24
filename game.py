@@ -33,7 +33,7 @@ bg = Background()
 cat = Cat()
 goal = Carrier()
 orange = Orange(POWER, 40, 40)
-menu = Menu('images/title-scren.png')
+menu = Menu(0)
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -95,6 +95,13 @@ def cattitude(surf, x, y, pct):
 
 def create_orange():
     all_sprites.add(orange)
+
+def reset():
+    cat.anger = 0
+    cat.level = 0
+
+    menu.change_level_screen(cat.level)
+
     
 ### Game loop ###
 running = True
@@ -181,8 +188,13 @@ while running:
                         cat.change_direction('top_left')
 
     if cat.anger >= 100:
-        print("The cat has fucked off. As has your screen.")
-        running = False
+        
+
+
+        menu.change_level_screen(-1)
+        menu.show_menu_screen(screen, clock)
+        reset()
+        menu_screen = True
 
     # Update
     all_sprites.update()
@@ -198,13 +210,18 @@ while running:
     screen.blit(goal.sprite, goal.rect)
     screen.blit(cat.running_sprite, cat.rect)
 
-    # Collision Check for obsticals
+    # Collision Check for obstacle
     for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
         print("OWCH!")
         angerRises()
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1
+        menu.change_level_screen(cat.level)
+        if cat.level == 10:
+            menu.show_menu_screen(screen, clock)
+            reset()
+        menu_screen = True
         print(cat.level)
         goal.respawn()
         carrier.add(goal)
