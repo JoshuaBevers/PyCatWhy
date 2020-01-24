@@ -15,11 +15,11 @@ from objects.menu import *
 from objects.nanner import *
 from objects.rage_bar import *
 
-ohno = input(bcolors.WARNING +
-             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+# ohno = input(bcolors.WARNING +
+#              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
 
-ohno = input(bcolors.WARNING +
-             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+# ohno = input(bcolors.WARNING +
+#              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
 
 
 pygame.init()
@@ -94,6 +94,10 @@ def angerRises():
     cat.screech.play(fade_ms=1).fadeout(1000)
     print(cat.anger)
 
+
+def madCat():
+    cat.growl.play(fade_ms=1)
+
 def angerCheck():
     if cat.anger >= 100:
         print("This rage cannot be contained!")
@@ -104,6 +108,10 @@ def create_orange():
 def reset():
     cat.anger = 0
     cat.level = 0
+    end_game_sit = 0
+    cat.direction_y = "UP"
+    cat.direction_x = "LEFT"
+    cat.running_sprite = cat.running_left[0]
     obstacle.empty()
     all_sprites.empty()
 
@@ -117,6 +125,7 @@ def reset():
 ### Game loop ###
 running = True
 menu_screen = True
+
 
 
 while running:
@@ -205,19 +214,19 @@ while running:
 
     # Message display if statements
     if cat.anger >= 100:
-        cat.growl.play(fade_ms=1)
-        # text_end_top.menu_show(screen)
-        # text_end_bottom.menu_show(screen)
-        # text.draw(screen)
-        time.sleep(4)
-        menu.change_level_screen(-1)
-        menu.show_menu_screen(screen, clock)
-        reset()
-        menu_screen = True
+        madCat()
+        cat.direction_y = "STOP"
+        cat.direction_x = "STOP"
+        end_game_sit += 1
+        if end_game_sit == 120:
+            menu.change_level_screen(-1)
+            menu.show_menu_screen(screen, clock)
+            reset()
+            menu_screen = True
+
 
         
-        bg.stop_music()
-        bg.start_music()
+
 
     # Update
     all_sprites.update()
@@ -239,9 +248,12 @@ while running:
     text_attitude.display_check(screen)
 
     # Collision Check for obstacles
-    for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
-        text_ouch.display_on(20)
-        angerRises()
+    if cat.anger >= 100:
+        pass
+    else:
+        for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
+            text_ouch.display_on(20)
+            angerRises()
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1

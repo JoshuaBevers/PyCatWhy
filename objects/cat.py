@@ -51,6 +51,9 @@ class Cat(pygame.sprite.Sprite):
             self.rect.y -= CAT_SPEED
             if self.rect.top <= 0:
                 self.direction_y = "DOWN"
+        if self.direction_y == "STOP" and self.direction_x == "STOP":
+            self.rect.x += 0
+            self.rect.y += 0
         self.movement()
 
     def change_direction(self, point):
@@ -72,6 +75,7 @@ class Cat(pygame.sprite.Sprite):
             self.meow.play()
 
     def movement(self):
+
         if self.rect.x % 30 == 0:
             if self.running_sprite == self.running_left[0] or self.running_sprite == self.running_right[0]:
                 if self.direction_x == "LEFT":
@@ -83,3 +87,5 @@ class Cat(pygame.sprite.Sprite):
                     self.running_sprite = self.running_left[0]
                 elif self.direction_x == "RIGHT":
                     self.running_sprite = self.running_right[0]
+        elif self.direction_x == "STOP" and self.direction_y == "STOP":
+            self.running_sprite = self.sitting
