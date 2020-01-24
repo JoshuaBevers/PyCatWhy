@@ -1,3 +1,4 @@
+# Import pygame.locals to establish necessary key commands
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -23,9 +24,19 @@ WIDTH = 780
 HEIGHT = 780
 FPS = 40
 
-# Import pygame.locals to establish necessary key commands
+# define optional font locations
+FONT_WIDTH_CENTER = (WIDTH // 2)
+FONT_WIDTH_LEFT = (WIDTH // 4) * 1
+FONT_WIDTH_RIGHT = (WIDTH // 4) * 3
+
+FONT_HEIGHT_CENTER = (HEIGHT // 2)
+FONT_HEIGHT_TOP_T = (HEIGHT // 7)
+FONT_HEIGHT_TOP_C = (HEIGHT // 7) * 2
+FONT_HEIGHT_TOP_B = (HEIGHT // 7) * 3
+FONT_HEIGHT_BOTTOM_T = (HEIGHT // 7) * 4
+FONT_HEIGHT_BOTTOM_C = (HEIGHT // 7) * 5
+FONT_HEIGHT_BOTTOM_B = (HEIGHT // 7) * 6
 
 # define the cat start point and speed
-
 CAT_START = (WIDTH // 2, HEIGHT // 2)
 CAT_SPEED = 5
