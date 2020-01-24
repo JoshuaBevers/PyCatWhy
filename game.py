@@ -1,4 +1,5 @@
 # Necessary imports
+from objects.text import *
 from pygame.locals import *
 from objects.orange import *
 import pygame
@@ -23,7 +24,7 @@ ohno = input(bcolors.WARNING +
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("PyCatWhy?!")
+pygame.display.set_caption("PyCatWhy?!?")
 SPAWN_SPEED = 1000
 
 # timer var
@@ -47,38 +48,46 @@ top_right = Click_Box('top_right')
 bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
 
+text_ouch = Text("Meowch!", 30, FONT_WIDTH_RIGHT, FONT_HEIGHT_TOP_T)
+text_attitude = Text("This cat has attitude!", 30,
+                     FONT_WIDTH_CENTER, FONT_HEIGHT_CENTER)
+text_end_top = Text("The cat has fucked off!", 50,
+                    FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
+text_end_bottom = Text("You lose.", 20, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
+
 clock = pygame.time.Clock()
 
-# all sprites
+# All sprites group set
 all_sprites = pygame.sprite.Group()
 all_sprites.add(cat)
 all_sprites.add(goal)
-all_sprites.add(orange)
-all_sprites.add(bannana)
 
-# obstacle
+# Obstacle group set
 obstacle = pygame.sprite.Group()
 obstacle.add(orange)
 obstacle.add(bannana)
 
-# P Player
+# Player group set
 player = pygame.sprite.Group()
 player.add(cat)
 
-# clickboxes
+# Clickboxes group set
 click_boxes = pygame.sprite.Group()
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
 
-# Cat Carrier
+# Cat carrier group set
 carrier = pygame.sprite.Group()
 carrier.add(goal)
+
+# Text group set
+text = pygame.sprite.Group()
+carrier.add(text_ouch, text_attitude, text_end_top, text_end_bottom)
 
 # Start music!
 bg.start_music()
 
+
 # Create functions
-
-
 def angerRises():
     cat.anger += 10
     cat.screech.play(fade_ms=1).fadeout(1000)
@@ -101,10 +110,10 @@ def cattitude(surf, x, y, pct):
     pygame.draw.rect(surf, RED, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
-
     ### Game loop ###
 running = True
 menu_screen = True
+
 
 while running:
     # variables being kept track of at the start of the game.
@@ -145,7 +154,7 @@ while running:
                 cat.change_direction('top_left')
                 if attitude == 1:
                     cat.anger += 5
-                    print("This cat has attitude!")
+                    text_attitude.display_on(20)
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
                         cat.change_direction('bottom_left')
@@ -157,7 +166,7 @@ while running:
                 cat.change_direction('top_right')
                 if attitude == 1:
                     cat.anger += 5
-                    print("This cat has attitude!")
+                    text_attitude.display_on(20)
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
                         cat.change_direction('bottom_left')
@@ -169,7 +178,7 @@ while running:
                 cat.change_direction('bottom_left')
                 if attitude == 1:
                     cat.anger += 5
-                    print("This cat has attitude!")
+                    text_attitude.display_on(20)
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
                         cat.change_direction('bottom_left')
@@ -181,7 +190,7 @@ while running:
                 cat.change_direction('bottom_right')
                 if attitude == 1:
                     cat.anger += 5
-                    print("This cat has attitude!")
+                    text_attitude.display_on(20)
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
                         cat.change_direction('bottom_left')
@@ -190,8 +199,16 @@ while running:
                     if changeDir == 3:
                         cat.change_direction('top_left')
 
+    # Message display if statements
     if cat.anger >= 100:
-        print("The cat has fucked off; as has your screen.")
+        cat.growl.play(fade_ms=1)
+        # text_end_top.menu_show(screen)
+        # text_end_bottom.menu_show(screen)
+        # text.draw(screen)
+        time.sleep(4)
+        menu_screen = True
+        bg.stop_music()
+        bg.start_music()
 
     # Update
     all_sprites.update()
@@ -203,14 +220,19 @@ while running:
     cattitude(screen, 350, 10, cat.anger)
     all_sprites.draw(screen)
     click_boxes.draw(screen)
+    text.draw(screen)
+
     screen.blit(goal.sprite, goal.rect)
 
     screen.blit(cat.running_sprite, cat.rect)
 
-    # Collision Check for obsticals
+    # Text checks
+    text_ouch.display_check(screen)
+    text_attitude.display_check(screen)
 
+    # Collision Check for obstacles
     for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
-        print("OWCH!")
+        text_ouch.display_on(20)
         angerRises()
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
