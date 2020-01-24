@@ -38,10 +38,8 @@ bg = Background()
 cat = Cat()
 goal = Carrier()
 orange = Orange(POWER, 40, 40)
+menu = Menu(0)
 bannana = Nanner(BANNANA, 50, 50)
-
-
-menu = Menu('images/title-scren.png')
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -110,7 +108,24 @@ def cattitude(surf, x, y, pct):
     pygame.draw.rect(surf, RED, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
-    ### Game loop ###
+
+def create_orange():
+    all_sprites.add(orange)
+
+def reset():
+    cat.anger = 0
+    cat.level = 0
+    obstacle.empty()
+    all_sprites.empty()
+
+    all_sprites.add(cat)
+    all_sprites.add(goal)
+    obstacle.add(orange)
+    obstacle.add(bannana)
+    menu.change_level_screen(cat.level)
+
+    
+### Game loop ###
 running = True
 menu_screen = True
 
@@ -130,7 +145,7 @@ while running:
         if event.type == spawn_orange + 1:
             for i in range(cat.level):
                 if cat.level > (len(obstacle)-(cat.anger // 5)):
-                    print(i)
+                    
                     o = Orange(POWER, 20, 15)
                     b = Nanner(BANNANA, 25, 24)
                     all_sprites.add(o)
@@ -205,8 +220,15 @@ while running:
         # text_end_top.menu_show(screen)
         # text_end_bottom.menu_show(screen)
         # text.draw(screen)
-        time.sleep(4)
+        time.sleep(4)        
+
+
+        menu.change_level_screen(-1)
+        menu.show_menu_screen(screen, clock)
+        reset()
         menu_screen = True
+
+        
         bg.stop_music()
         bg.start_music()
 
@@ -237,7 +259,12 @@ while running:
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1
-        print(cat.level)
+        menu.change_level_screen(cat.level)
+        if cat.level == 10:
+            menu.show_menu_screen(screen, clock)
+            reset()
+        menu_screen = True
+        
         goal.respawn()
         carrier.add(goal)
 
