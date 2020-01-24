@@ -33,7 +33,6 @@ pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 bg = Background()
 cat = Cat()
 goal = Carrier(BLACK, 100, 80)
-
 orange = Orange(GREEN, 40, 40)
 
 top_left = Click_Box('top_left')
@@ -42,12 +41,20 @@ bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
 
 clock = pygame.time.Clock()
-
+# all sprites
 all_sprites = pygame.sprite.Group()
-click_boxes = pygame.sprite.Group()
-obsticals = pygame.sprite.Group()
 all_sprites.add(cat)
 all_sprites.add(goal)
+
+# obsicals
+obsticals = pygame.sprite.Group()
+obsticals.add(orange)
+
+# P Player
+player = pygame.sprite.Group()
+player.add(cat)
+# clickboxes
+click_boxes = pygame.sprite.Group()
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
 
 
@@ -62,7 +69,7 @@ def cattitude(surf, x, y, pct):
         pct = 0
     BAR_LENGTH = 160
     BAR_HEIGHT = 30
-    fill = (pct / 100) * BAR_LENGTH
+    fill = (pct // 100) * BAR_LENGTH
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
     pygame.draw.rect(surf, RED, fill_rect)
@@ -160,6 +167,14 @@ while running:
     all_sprites.draw(screen)
     click_boxes.draw(screen)
     cattitude(screen, 350, 10, cat.anger)
+
+    # Collision
+    hits = pygame.sprite.groupcollide(obsticals, player, True, True)
+
+    hits = pygame.sprite.spritecollide(
+        obsticals, player, False, pygame.sprite.collideany())
+    if hits:
+        running = False
 
     if cat.running_sprite == cat.running[0] and cat.rect.x % 50 == 0:
         cat.running_sprite = cat.running[1]
