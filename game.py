@@ -95,7 +95,8 @@ def cattitude(surf, x, y, pct):
 
 def create_orange():
     all_sprites.add(orange)
-    
+
+
 ### Game loop ###
 running = True
 menu_screen = True
@@ -206,7 +207,7 @@ while running:
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1
         print(cat.level)
-        o = Carrier(BLACK, 100, 80)
+        o = Carrier()
         all_sprites.add(o)
         carrier.add(o)
 

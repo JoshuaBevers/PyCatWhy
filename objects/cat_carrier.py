@@ -8,7 +8,8 @@ class Carrier(pygame.sprite.Sprite):
         super().__init__()
         self.width = 100
         self.height = 86
-        self.image = pygame.Surface([self.width, self.height], pygame.SRCALPHA, 32)
+        self.image = pygame.Surface(
+            [self.width, self.height], pygame.SRCALPHA, 32)
         # pygame.draw.ellipse(self.image, WHITE, [0, 0, 100, 86])
         self.image.convert_alpha()
         self.sprite = pygame.image.load(
