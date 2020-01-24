@@ -10,6 +10,7 @@ from objects.click_box import *
 from objects.background import *
 from objects.cat_carrier import *
 from objects.cat import *
+from objects.menu import *
 
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
@@ -32,6 +33,7 @@ bg = Background()
 cat = Cat()
 goal = Carrier(BLACK, 100, 80)
 orange = Orange(POWER, 40, 40)
+menu = Menu('images/title-scren.png')
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -92,16 +94,21 @@ def cattitude(surf, x, y, pct):
 
 def create_orange():
     all_sprites.add(orange)
-
-
+    
 ### Game loop ###
 running = True
+menu_screen = True
+
 while running:
     # variables being kept track of at the start of the game.
     start_ticks = pygame.time.get_ticks()
     # Keep loop running at the right speed
     clock.tick(FPS)
     # Process input (events)
+    if menu_screen:
+        menu.show_menu_screen(screen, clock)
+        menu_screen = False
+
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
             for i in range(cat.level):
