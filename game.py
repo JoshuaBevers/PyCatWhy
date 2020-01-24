@@ -6,12 +6,12 @@ import sys
 import time
 import random
 from init.gameinitializers import *
-from objects.cat import *
 from objects.click_box import *
 from objects.background import *
+from objects.cat_carrier import *
+from objects.cat import *
+from objects.menu import *
 
-# pygame.mixer.pre_init(44100, 16, 2, 4096)
-# Initialize pygame and create window
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -31,7 +31,9 @@ pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 # Space allocated for creating and adding variables.
 bg = Background()
 cat = Cat()
-orange = Orange(GREEN, 40, 40)
+goal = Carrier(BLACK, 100, 80)
+orange = Orange(POWER, 40, 40)
+menu = Menu('images/title_screen.png')
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -40,10 +42,21 @@ bottom_right = Click_Box('bottom_right')
 
 clock = pygame.time.Clock()
 
+# all sprites
 all_sprites = pygame.sprite.Group()
-click_boxes = pygame.sprite.Group()
-obsticals = pygame.sprite.Group()
 all_sprites.add(cat)
+all_sprites.add(goal)
+
+# obstacle
+obstacle = pygame.sprite.Group()
+obstacle.add(orange)
+
+# P Player
+player = pygame.sprite.Group()
+player.add(cat)
+
+# clickboxes
+click_boxes = pygame.sprite.Group()
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
 
 
@@ -51,6 +64,18 @@ click_boxes.add(top_left, top_right, bottom_left, bottom_right)
 bg.start_music()
 
 # Create functions
+
+
+def angerRises():
+    cat.anger += 10
+    print(cat.anger)
+
+
+def angerCheck():
+    if cat.anger == 100:
+        print("This rage cannot be contained!")
+
+
 def cattitude(surf, x, y, pct):
     if pct < 0:
         pct = 0
@@ -60,26 +85,56 @@ def cattitude(surf, x, y, pct):
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
     pygame.draw.rect(surf, RED, fill_rect)
-    pygame.draw.rect(surf, BLACK, outline_rect, 2)
+    pygame.draw.rect(surf, WHITE, outline_rect, 2)
+
 
 def create_orange():
     all_sprites.add(orange)
+    
+font_name = pygame.font.match_font('arial')
+
+def draw_text(surf, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
+
+def show_menu_screen():
+    screen.blit(menu.menu_image, menu.rect)
+    # draw_text(screen, "Get the Cat to the Carrier", 64, WIDTH / 2, HEIGHT / 4)
+    pygame.display.flip()
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            # Any key press will start the game
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                waiting = False
 
 
 ### Game loop ###
 running = True
+menu_scren = True
+
 while running:
     # variables being kept track of at the start of the game.
     start_ticks = pygame.time.get_ticks()
     # Keep loop running at the right speed
     clock.tick(FPS)
     # Process input (events)
+    if menu:
+        show_menu_screen()
+        menu_scren = False
+
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
             for i in range(1):
-                o = Orange(BLUE, 20, 15)
+                o = Orange(POWER, 20, 15)
                 all_sprites.add(o)
-                obsticals.add(o)
+                obstacle.add(o)
 
                 # calling the function wheever we get timer event.
 
@@ -96,6 +151,7 @@ while running:
             if top_left.rect.collidepoint(x, y):
                 cat.change_direction('top_left')
                 if attitude == 1:
+                    cat.anger += 5
                     print("This cat has attitude!")
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
@@ -107,6 +163,7 @@ while running:
             if top_right.rect.collidepoint(x, y):
                 cat.change_direction('top_right')
                 if attitude == 1:
+                    cat.anger += 5
                     print("This cat has attitude!")
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
@@ -118,6 +175,7 @@ while running:
             if bottom_left.rect.collidepoint(x, y):
                 cat.change_direction('bottom_left')
                 if attitude == 1:
+                    cat.anger += 5
                     print("This cat has attitude!")
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
@@ -129,6 +187,7 @@ while running:
             if bottom_right.rect.collidepoint(x, y):
                 cat.change_direction('bottom_right')
                 if attitude == 1:
+                    cat.anger += 5
                     print("This cat has attitude!")
                     changeDir = random.randint(1, 3)
                     if changeDir == 1:
@@ -145,21 +204,21 @@ while running:
     # Draw / render
     screen.fill(BLACK)
     screen.blit(bg.background, bg.rect)
-
+    cattitude(screen, 350, 10, cat.anger)
     all_sprites.draw(screen)
     click_boxes.draw(screen)
-    cattitude(screen, 350, 10, cat.anger)
 
-    if cat.running_sprite == cat.running[0] and cat.rect.x % 50 == 0:
-        cat.running_sprite = cat.running[1]
-    elif cat.running_sprite == cat.running[1] and cat.rect.x % 50 == 0:
-        cat.running_sprite = cat.running[0]
     screen.blit(cat.running_sprite, cat.rect)
+
+    # Collision Check
+    for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
+        print("OWCH!")
+        angerRises()
 
     # *after* drawing everything, flip the display
     pygame.display.flip()
 
 
 # Pygame end
-ppygame.mixer.quit()
+pygame.mixer.quit()
 pygame.quit()
