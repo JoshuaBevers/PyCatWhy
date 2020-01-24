@@ -5,7 +5,9 @@ from init.gameinitializers import *
 class Cat(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((80, 68), pygame.SRCALPHA, 32)
+        self.width = 80
+        self.height = 68
+        self.image = pygame.Surface([self.width, self.height], pygame.SRCALPHA, 32)
         self.image.convert_alpha()
         self.sitting = pygame.image.load(
             'images/catspritesx4-transparent-sitting.png')

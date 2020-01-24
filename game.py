@@ -30,7 +30,7 @@ pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 # Space allocated for creating and adding variables.
 bg = Background()
 cat = Cat()
-goal = Carrier(BLACK, 100, 80)
+goal = Carrier()
 orange = Orange(POWER, 40, 40)
 
 top_left = Click_Box('top_left')
@@ -66,6 +66,7 @@ bg.start_music()
 
 def angerRises():
     cat.anger += 10
+    cat.screech.play(fade_ms=1).fadeout(1000)
     print(cat.anger)
 
 
@@ -177,6 +178,7 @@ while running:
     all_sprites.draw(screen)
     click_boxes.draw(screen)
 
+    screen.blit(goal.sprite, goal.rect)
     screen.blit(cat.running_sprite, cat.rect)
 
     # Collision Check
