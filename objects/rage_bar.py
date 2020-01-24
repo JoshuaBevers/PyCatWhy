@@ -1,22 +1,35 @@
 from init.gameinitializers import *
+from objects.cat import *
 
 class Rage_Bar(pygame.sprite.Sprite):
     def __init__(self):
-        self.BAR_LENGTH = 100
-        self.BAR_HEIGHT = 10
-        self.rage = 0 
-        self.outline_rect = pygame.Rect(x, y, self.BAR_LENGTH, self.BAR_HEIGHT)
-        self.fill_rect = pygame.Rect(x, y, self.fill, self.BAR_HEIGHT)
+        self.BAR_WIDTH = 200
+        self.BAR_HEIGHT = 30
+        self.x = (WIDTH - self.BAR_WIDTH) // 2
+        self.y = 10
+        self.fill = (1 // 100) * self.BAR_WIDTH
+        self.outline_rect = pygame.Rect(self.x, self.y, self.BAR_WIDTH, self.BAR_HEIGHT)
+        self.fill_rect = pygame.Rect(self.x+3, self.y, self.fill, self.BAR_HEIGHT)
 
-    def draw_shield_bar(surf, x, y, pct):
-        if pct < 0:
-            pct = 0
-        BAR_LENGTH = 100
-        BAR_HEIGHT = 10
-        fill = (pct / 100) * BAR_LENGTH
-        outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-        fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
-        pygame.draw.rect(surf, GREEN, fill_rect)
-        pygame.draw.rect(surf, WHITE, outline_rect, 2)
-        if fill < 30:
-            pygame.draw.rect(surf, RED, fill_rect)
+    def draw_shield_bar(self, screen, cat_class):
+        if cat_class.anger < 0:
+            cat_class.anger = 0
+        
+        self.fill = (cat_class.anger / 100) * self.BAR_WIDTH
+        self.fill_rect = pygame.Rect(self.x+3, self.y, self.fill, self.BAR_HEIGHT)
+
+        if cat_class.anger > 75:
+            pygame.draw.rect(screen, RED, self.fill_rect)
+            pygame.draw.rect(screen, WHITE, self.outline_rect, 2)
+
+        elif cat_class.anger > 50:
+            pygame.draw.rect(screen, POWER, self.fill_rect)
+            pygame.draw.rect(screen, WHITE, self.outline_rect, 2)
+            
+        elif cat_class.anger > 25:
+            pygame.draw.rect(screen, GREEN, self.fill_rect)
+            pygame.draw.rect(screen, WHITE, self.outline_rect, 2)
+
+        else:
+            pygame.draw.rect(screen, GREEN, self.fill_rect)
+            pygame.draw.rect(screen, WHITE, self.outline_rect, 2)
