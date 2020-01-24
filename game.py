@@ -204,12 +204,10 @@ while running:
         angerRises()
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
-
         cat.level += 1
         print(cat.level)
-        o = Carrier(BLACK, 100, 80)
-        all_sprites.add(o)
-        carrier.add(o)
+        goal.respawn()
+        carrier.add(goal)
 
     # *after* drawing everything, flip the display
     pygame.display.flip()
