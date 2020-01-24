@@ -10,13 +10,8 @@ from objects.click_box import *
 from objects.background import *
 from objects.cat_carrier import *
 from objects.cat import *
+from objects.menu import *
 
-<<<<<<< HEAD
-
-# pygame.mixer.pre_init(44100, 16, 2, 4096)
-# Initialize pygame and create window
-=======
->>>>>>> 0db23854d19fe0006e1032e5fa5f8e75bb91aabe
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -38,6 +33,7 @@ bg = Background()
 cat = Cat()
 goal = Carrier(BLACK, 100, 80)
 orange = Orange(POWER, 40, 40)
+menu = Menu('images/title-scren.png')
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -95,32 +91,9 @@ def cattitude(surf, x, y, pct):
 def create_orange():
     all_sprites.add(orange)
     
-font_name = pygame.font.match_font('arial')
-
-def draw_text(surf, text, size, x, y):
-    font = pygame.font.Font(font_name, size)
-    text_surface = font.render(text, True, WHITE)
-    text_rect = text_surface.get_rect()
-    text_rect.midtop = (x, y)
-    surf.blit(text_surface, text_rect)
-
-def show_menu_screen():
-    draw_text(screen, "Get the Cat to the Carrier", 64, WIDTH / 2, HEIGHT / 4)
-    pygame.display.flip()
-    waiting = True
-    while waiting:
-        clock.tick(FPS)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            # Any key press will start the game
-            if event.type == pygame.KEYDOWN:
-                waiting = False
-
-
 ### Game loop ###
 running = True
-menu = True
+menu_screen = True
 
 while running:
     # variables being kept track of at the start of the game.
@@ -128,8 +101,9 @@ while running:
     # Keep loop running at the right speed
     clock.tick(FPS)
     # Process input (events)
-    if menu:
-        show_menu_screen()
+    if menu_screen:
+        menu.show_menu_screen(screen, clock)
+        menu_screen = False
 
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
