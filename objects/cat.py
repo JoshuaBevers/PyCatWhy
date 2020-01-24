@@ -29,6 +29,7 @@ class Cat(pygame.sprite.Sprite):
         self.growl = pygame.mixer.Sound('sounds/cat-growl.wav')
 
         self.anger = 0
+        self.level = 0
 
     def update(self):
         # interact with screen edges

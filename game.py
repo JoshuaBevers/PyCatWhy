@@ -10,6 +10,7 @@ from objects.click_box import *
 from objects.background import *
 from objects.cat_carrier import *
 from objects.cat import *
+from objects.menu import *
 
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
@@ -32,6 +33,7 @@ bg = Background()
 cat = Cat()
 goal = Carrier()
 orange = Orange(POWER, 40, 40)
+menu = Menu('images/title-scren.png')
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -45,6 +47,7 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(cat)
 all_sprites.add(goal)
 
+
 # obstacle
 obstacle = pygame.sprite.Group()
 obstacle.add(orange)
@@ -57,6 +60,9 @@ player.add(cat)
 click_boxes = pygame.sprite.Group()
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
 
+# Cat Carrier
+carrier = pygame.sprite.Group()
+carrier.add(goal)
 
 # Start music!
 bg.start_music()
@@ -82,29 +88,36 @@ def cattitude(surf, x, y, pct):
     BAR_HEIGHT = 30
     fill = (pct / 100) * BAR_LENGTH
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    fill_rect = pygame.Rect(x + 3, y, fill, BAR_HEIGHT)
     pygame.draw.rect(surf, RED, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
 
 def create_orange():
     all_sprites.add(orange)
-
-
+    
 ### Game loop ###
 running = True
+menu_screen = True
+
 while running:
     # variables being kept track of at the start of the game.
     start_ticks = pygame.time.get_ticks()
     # Keep loop running at the right speed
     clock.tick(FPS)
     # Process input (events)
+    if menu_screen:
+        menu.show_menu_screen(screen, clock)
+        menu_screen = False
+
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
-            for i in range(1):
-                o = Orange(POWER, 20, 15)
-                all_sprites.add(o)
-                obstacle.add(o)
+            for i in range(cat.level):
+                if cat.level > len(obstacle):
+                    print(i)
+                    o = Orange(POWER, 20, 15)
+                    all_sprites.add(o)
+                    obstacle.add(o)
 
                 # calling the function wheever we get timer event.
 
@@ -167,6 +180,10 @@ while running:
                     if changeDir == 3:
                         cat.change_direction('top_left')
 
+    if cat.anger >= 100:
+        print("The cat has fucked off. As has your screen.")
+        running = False
+
     # Update
     all_sprites.update()
     click_boxes.update(cat)
@@ -181,10 +198,18 @@ while running:
     screen.blit(goal.sprite, goal.rect)
     screen.blit(cat.running_sprite, cat.rect)
 
-    # Collision Check
+    # Collision Check for obsticals
     for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
         print("OWCH!")
         angerRises()
+
+    for unit in pygame.sprite.groupcollide(player, carrier, False, True):
+
+        cat.level += 1
+        print(cat.level)
+        o = Carrier(BLACK, 100, 80)
+        all_sprites.add(o)
+        carrier.add(o)
 
     # *after* drawing everything, flip the display
     pygame.display.flip()
