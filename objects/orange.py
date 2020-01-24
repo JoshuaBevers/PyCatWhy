@@ -44,7 +44,7 @@ class Orange(pygame.sprite.Sprite):
             if self.rect.top <= 0:
                 self.direction_y = "DOWN"
         
-        def die(self):
-            self.kill()
+    def die(self):
+        pygame.sprite.Sprite.kill(self)
     
     

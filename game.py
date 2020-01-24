@@ -115,7 +115,13 @@ def create_orange():
 def reset():
     cat.anger = 0
     cat.level = 0
+    obstacle.empty()
+    all_sprites.empty()
 
+    all_sprites.add(cat)
+    all_sprites.add(goal)
+    obstacle.add(orange)
+    obstacle.add(bannana)
     menu.change_level_screen(cat.level)
 
     
@@ -139,7 +145,7 @@ while running:
         if event.type == spawn_orange + 1:
             for i in range(cat.level):
                 if cat.level > (len(obstacle)-(cat.anger // 5)):
-                    print(i)
+                    
                     o = Orange(POWER, 20, 15)
                     b = Nanner(BANNANA, 25, 24)
                     all_sprites.add(o)
@@ -210,19 +216,19 @@ while running:
 
     # Message display if statements
     if cat.anger >= 100:
-        
+        cat.growl.play(fade_ms=1)
+        # text_end_top.menu_show(screen)
+        # text_end_bottom.menu_show(screen)
+        # text.draw(screen)
+        time.sleep(4)        
 
 
         menu.change_level_screen(-1)
         menu.show_menu_screen(screen, clock)
         reset()
         menu_screen = True
-        cat.growl.play(fade_ms=1)
-        # text_end_top.menu_show(screen)
-        # text_end_bottom.menu_show(screen)
-        # text.draw(screen)
-        time.sleep(4)
-        menu_screen = True
+
+        
         bg.stop_music()
         bg.start_music()
 
@@ -258,7 +264,7 @@ while running:
             menu.show_menu_screen(screen, clock)
             reset()
         menu_screen = True
-        print(cat.level)
+        
         goal.respawn()
         carrier.add(goal)
 
