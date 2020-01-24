@@ -13,6 +13,7 @@ from objects.cat_carrier import *
 from objects.cat import *
 from objects.menu import *
 from objects.nanner import *
+from objects.rage_bar import *
 
 ohno = input(bcolors.WARNING +
              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
@@ -27,19 +28,21 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("PyCatWhy?!?")
 SPAWN_SPEED = 1000
 
+
 # timer var
 
 spawn_orange = pygame.USEREVENT + 1
 
 pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 
+
 # Space allocated for creating and adding variables.
 bg = Background()
+cattitude = Rage_Bar()
 cat = Cat()
 goal = Carrier()
 orange = Orange(POWER, 40, 40)
 bannana = Nanner(BANNANA, 50, 50)
-
 
 menu = Menu('images/title-scren.png')
 
@@ -49,13 +52,12 @@ bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
 
 text_ouch = Text("Meowch!", 30, FONT_WIDTH_RIGHT, FONT_HEIGHT_TOP_T)
-text_attitude = Text("This cat has attitude!", 30,
-                     FONT_WIDTH_CENTER, FONT_HEIGHT_CENTER)
-text_end_top = Text("The cat has fucked off!", 50,
-                    FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
+text_attitude = Text("This cat has attitude!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_CENTER)
+text_end_top = Text("The cat has fucked off!", 50, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 text_end_bottom = Text("You lose.", 20, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 
 clock = pygame.time.Clock()
+
 
 # All sprites group set
 all_sprites = pygame.sprite.Group()
@@ -81,7 +83,7 @@ carrier.add(goal)
 
 # Text group set
 text = pygame.sprite.Group()
-carrier.add(text_ouch, text_attitude, text_end_top, text_end_bottom)
+text.add(text_ouch, text_attitude, text_end_top, text_end_bottom)
 
 # Start music!
 bg.start_music()
@@ -93,24 +95,12 @@ def angerRises():
     cat.screech.play(fade_ms=1).fadeout(1000)
     print(cat.anger)
 
-
 def angerCheck():
     if cat.anger >= 100:
         print("This rage cannot be contained!")
 
 
-def cattitude(surf, x, y, pct):
-    if pct < 0:
-        pct = 0
-    BAR_LENGTH = 160
-    BAR_HEIGHT = 30
-    fill = (pct / 100) * BAR_LENGTH
-    outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    fill_rect = pygame.Rect(x + 3, y, fill, BAR_HEIGHT)
-    pygame.draw.rect(surf, RED, fill_rect)
-    pygame.draw.rect(surf, WHITE, outline_rect, 2)
-
-    ### Game loop ###
+### Game loop ###
 running = True
 menu_screen = True
 
@@ -202,10 +192,10 @@ while running:
     # Message display if statements
     if cat.anger >= 100:
         cat.growl.play(fade_ms=1)
-        # text_end_top.menu_show(screen)
-        # text_end_bottom.menu_show(screen)
-        # text.draw(screen)
-        time.sleep(4)
+        text_end_top.menu_show(screen)
+        text_end_bottom.menu_show(screen)
+        pygame.display.flip()
+        time.sleep(2)
         menu_screen = True
         bg.stop_music()
         bg.start_music()
@@ -215,12 +205,11 @@ while running:
     click_boxes.update(cat)
 
     # Draw / render
-
     screen.blit(bg.background, bg.rect)
-    cattitude(screen, 350, 10, cat.anger)
+    cattitude.draw_shield_bar(screen, cat)
     all_sprites.draw(screen)
     click_boxes.draw(screen)
-    text.draw(screen)
+    
 
     screen.blit(goal.sprite, goal.rect)
 
