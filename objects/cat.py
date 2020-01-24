@@ -7,7 +7,8 @@ class Cat(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.width = 80
         self.height = 68
-        self.image = pygame.Surface([self.width, self.height], pygame.SRCALPHA, 32)
+        self.image = pygame.Surface(
+            [self.width, self.height], pygame.SRCALPHA, 32)
         self.image.convert_alpha()
         self.sitting = pygame.image.load(
             'images/catspritesx4-transparent-sitting.png')
@@ -28,6 +29,7 @@ class Cat(pygame.sprite.Sprite):
         self.screech = pygame.mixer.Sound('sounds/cat-screech.wav')
         self.growl = pygame.mixer.Sound('sounds/cat-growl.wav')
 
+        # Variables.
         self.anger = 0
         self.level = 0
 

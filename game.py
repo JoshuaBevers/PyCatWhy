@@ -1,4 +1,5 @@
 # Necessary imports
+from objects.text import *
 from pygame.locals import *
 from objects.orange import *
 import pygame
@@ -11,7 +12,14 @@ from objects.background import *
 from objects.cat_carrier import *
 from objects.cat import *
 from objects.menu import *
-from objects.text import *
+from objects.nanner import *
+
+ohno = input(bcolors.WARNING +
+             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+
+ohno = input(bcolors.WARNING +
+             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+
 
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
@@ -19,21 +27,20 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("PyCatWhy?!?")
 SPAWN_SPEED = 1000
 
-# sounds
-
-
 # timer var
 
 spawn_orange = pygame.USEREVENT + 1
 
 pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 
-
 # Space allocated for creating and adding variables.
 bg = Background()
 cat = Cat()
 goal = Carrier()
 orange = Orange(POWER, 40, 40)
+bannana = Nanner(BANNANA, 50, 50)
+
+
 menu = Menu('images/title-scren.png')
 
 top_left = Click_Box('top_left')
@@ -42,8 +49,10 @@ bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
 
 text_ouch = Text("Meowch!", 30, FONT_WIDTH_RIGHT, FONT_HEIGHT_TOP_T)
-text_attitude = Text("This cat has attitude!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_CENTER)
-text_end_top = Text("The cat has fucked off!", 50, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
+text_attitude = Text("This cat has attitude!", 30,
+                     FONT_WIDTH_CENTER, FONT_HEIGHT_CENTER)
+text_end_top = Text("The cat has fucked off!", 50,
+                    FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 text_end_bottom = Text("You lose.", 20, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 
 clock = pygame.time.Clock()
@@ -56,6 +65,7 @@ all_sprites.add(goal)
 # Obstacle group set
 obstacle = pygame.sprite.Group()
 obstacle.add(orange)
+obstacle.add(bannana)
 
 # Player group set
 player = pygame.sprite.Group()
@@ -85,7 +95,7 @@ def angerRises():
 
 
 def angerCheck():
-    if cat.anger == 100:
+    if cat.anger >= 100:
         print("This rage cannot be contained!")
 
 
@@ -100,11 +110,7 @@ def cattitude(surf, x, y, pct):
     pygame.draw.rect(surf, RED, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
-
-def create_orange():
-    all_sprites.add(orange)
-    
-### Game loop ###
+    ### Game loop ###
 running = True
 menu_screen = True
 
@@ -115,6 +121,7 @@ while running:
     # Keep loop running at the right speed
     clock.tick(FPS)
     # Process input (events)
+
     if menu_screen:
         menu.show_menu_screen(screen, clock)
         menu_screen = False
@@ -122,11 +129,14 @@ while running:
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
             for i in range(cat.level):
-                if cat.level > len(obstacle):
+                if cat.level > (len(obstacle)-(cat.anger // 5)):
                     print(i)
                     o = Orange(POWER, 20, 15)
+                    b = Nanner(BANNANA, 25, 24)
                     all_sprites.add(o)
                     obstacle.add(o)
+                    all_sprites.add(b)
+                    obstacle.add(b)
 
                 # calling the function wheever we get timer event.
 
@@ -189,7 +199,6 @@ while running:
                     if changeDir == 3:
                         cat.change_direction('top_left')
 
-
     # Message display if statements
     if cat.anger >= 100:
         cat.growl.play(fade_ms=1)
@@ -206,7 +215,7 @@ while running:
     click_boxes.update(cat)
 
     # Draw / render
-    screen.fill(BLACK)
+
     screen.blit(bg.background, bg.rect)
     cattitude(screen, 350, 10, cat.anger)
     all_sprites.draw(screen)
@@ -214,6 +223,7 @@ while running:
     text.draw(screen)
 
     screen.blit(goal.sprite, goal.rect)
+
     screen.blit(cat.running_sprite, cat.rect)
 
     # Text checks
