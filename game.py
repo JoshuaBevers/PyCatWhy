@@ -6,13 +6,11 @@ import sys
 import time
 import random
 from init.gameinitializers import *
-from objects.cat import *
 from objects.click_box import *
 from objects.background import *
 from objects.cat_carrier import *
+from objects.cat import *
 
-# pygame.mixer.pre_init(44100, 16, 2, 4096)
-# Initialize pygame and create window
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -33,7 +31,7 @@ pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 bg = Background()
 cat = Cat()
 goal = Carrier(BLACK, 100, 80)
-orange = Orange(GREEN, 40, 40)
+orange = Orange(POWER, 40, 40)
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -41,18 +39,20 @@ bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
 
 clock = pygame.time.Clock()
+
 # all sprites
 all_sprites = pygame.sprite.Group()
 all_sprites.add(cat)
 all_sprites.add(goal)
 
-# obsicals
-obsticals = pygame.sprite.Group()
-obsticals.add(orange)
+# obstacle
+obstacle = pygame.sprite.Group()
+obstacle.add(orange)
 
 # P Player
 player = pygame.sprite.Group()
 player.add(cat)
+
 # clickboxes
 click_boxes = pygame.sprite.Group()
 click_boxes.add(top_left, top_right, bottom_left, bottom_right)
@@ -64,16 +64,26 @@ bg.start_music()
 # Create functions
 
 
+def angerRises():
+    cat.anger += 10
+    print(cat.anger)
+
+
+def angerCheck():
+    if cat.anger == 100:
+        print("This rage cannot be contained!")
+
+
 def cattitude(surf, x, y, pct):
     if pct < 0:
         pct = 0
     BAR_LENGTH = 160
     BAR_HEIGHT = 30
-    fill = (pct // 100) * BAR_LENGTH
+    fill = (pct / 100) * BAR_LENGTH
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
     pygame.draw.rect(surf, RED, fill_rect)
-    pygame.draw.rect(surf, BLACK, outline_rect, 2)
+    pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
 
 def create_orange():
@@ -91,9 +101,9 @@ while running:
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
             for i in range(1):
-                o = Orange(BLUE, 20, 15)
+                o = Orange(POWER, 20, 15)
                 all_sprites.add(o)
-                obsticals.add(o)
+                obstacle.add(o)
 
                 # calling the function wheever we get timer event.
 
@@ -163,12 +173,16 @@ while running:
     # Draw / render
     screen.fill(BLACK)
     screen.blit(bg.background, bg.rect)
-
+    cattitude(screen, 350, 10, cat.anger)
     all_sprites.draw(screen)
     click_boxes.draw(screen)
-    cattitude(screen, 350, 10, cat.anger)
 
     screen.blit(cat.running_sprite, cat.rect)
+
+    # Collision Check
+    for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
+        print("OWCH!")
+        angerRises()
 
     # *after* drawing everything, flip the display
     pygame.display.flip()

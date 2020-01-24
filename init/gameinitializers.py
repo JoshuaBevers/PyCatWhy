@@ -16,6 +16,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 CLEAR = (0, 0, 0, 0)
+POWER = (200, 100, 10)
 
 # define game screen sizing and fps
 WIDTH = 780
