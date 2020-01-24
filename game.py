@@ -207,14 +207,8 @@ while running:
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1
         print(cat.level)
-<<<<<<< HEAD
-        o = Carrier()
-        all_sprites.add(o)
-        carrier.add(o)
-=======
         goal.respawn()
         carrier.add(goal)
->>>>>>> 258d512fae3ff002ac28898ca0bae941a26a87f5
 
     # *after* drawing everything, flip the display
     pygame.display.flip()

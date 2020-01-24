@@ -8,13 +8,7 @@ class Carrier(pygame.sprite.Sprite):
         super().__init__()
         self.width = 100
         self.height = 86
-<<<<<<< HEAD
-        self.image = pygame.Surface(
-            [self.width, self.height], pygame.SRCALPHA, 32)
-        # pygame.draw.ellipse(self.image, WHITE, [0, 0, 100, 86])
-=======
         self.image = pygame.Surface([self.width, self.height], pygame.SRCALPHA, 32)
->>>>>>> 258d512fae3ff002ac28898ca0bae941a26a87f5
         self.image.convert_alpha()
         self.sprite = pygame.image.load('images/cat-carrier2.png')
         self.rect = self.image.get_rect()
