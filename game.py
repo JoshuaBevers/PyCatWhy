@@ -10,6 +10,7 @@ from objects.cat import *
 from objects.click_box import *
 from objects.background import *
 
+
 # pygame.mixer.pre_init(44100, 16, 2, 4096)
 # Initialize pygame and create window
 pygame.init()
@@ -64,16 +65,43 @@ def cattitude(surf, x, y, pct):
 
 def create_orange():
     all_sprites.add(orange)
+    
+font_name = pygame.font.match_font('arial')
+
+def draw_text(surf, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
+
+def show_menu_screen():
+    draw_text(screen, "Get the Cat to the Carrier", 64, WIDTH / 2, HEIGHT / 4)
+    pygame.display.flip()
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            # Any key press will start the game
+            if event.type == pygame.KEYDOWN:
+                waiting = False
 
 
 ### Game loop ###
 running = True
+menu = True
+
 while running:
     # variables being kept track of at the start of the game.
     start_ticks = pygame.time.get_ticks()
     # Keep loop running at the right speed
     clock.tick(FPS)
     # Process input (events)
+    if menu:
+        show_menu_screen()
+
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
             for i in range(1):
