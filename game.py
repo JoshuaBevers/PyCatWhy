@@ -1,7 +1,4 @@
 # Necessary imports
-from objects.text import *
-from pygame.locals import *
-from objects.orange import *
 import pygame
 import sys
 import time
@@ -14,12 +11,17 @@ from objects.cat import *
 from objects.menu import *
 from objects.nanner import *
 from objects.rage_bar import *
+from objects.text import *
+from pygame.locals import *
+from objects.orange import *
 
-ohno = input(bcolors.WARNING +
-             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
 
-ohno = input(bcolors.WARNING +
-             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+# DEMO ERROR CODE
+# ohno = input(bcolors.WARNING +
+#              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+
+# ohno = input(bcolors.WARNING +
+#              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
 
 
 pygame.init()
@@ -30,7 +32,6 @@ SPAWN_SPEED = 1000
 
 
 # timer var
-
 spawn_orange = pygame.USEREVENT + 1
 
 pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
@@ -43,15 +44,15 @@ cat = Cat()
 goal = Carrier()
 orange = Orange(POWER, 40, 40)
 menu = Menu(0)
-bannana = Nanner(BANNANA, 50, 50)
+banana = Nanner(BANANA, 50, 50)
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
 bottom_left = Click_Box('bottom_left')
 bottom_right = Click_Box('bottom_right')
 
-text_ouch = Text("Meowch!", 30, FONT_WIDTH_RIGHT, FONT_HEIGHT_TOP_T)
-text_attitude = Text("This cat has attitude!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_CENTER)
+text_ouch = Text("Meowch!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
+text_attitude = Text("This cat has attitude!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T+30)
 text_end_top = Text("The cat has fucked off!", 50, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 text_end_bottom = Text("You lose.", 20, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 
@@ -66,7 +67,7 @@ all_sprites.add(goal)
 # Obstacle group set
 obstacle = pygame.sprite.Group()
 obstacle.add(orange)
-obstacle.add(bannana)
+obstacle.add(banana)
 
 # Player group set
 player = pygame.sprite.Group()
@@ -90,9 +91,7 @@ bg.start_music()
 
 # Create functions
 def angerRises():
-    cat.anger += 10
-    cat.screech.play(fade_ms=1).fadeout(1000)
-    print(cat.anger)
+    cat.anger += 5
 
 def angerCheck():
     if cat.anger >= 100:
@@ -110,7 +109,7 @@ def reset():
     all_sprites.add(cat)
     all_sprites.add(goal)
     obstacle.add(orange)
-    obstacle.add(bannana)
+    obstacle.add(banana)
     menu.change_level_screen(cat.level)
 
     
@@ -136,7 +135,7 @@ while running:
                 if cat.level > (len(obstacle)-(cat.anger // 5)):
                     
                     o = Orange(POWER, 20, 15)
-                    b = Nanner(BANNANA, 25, 24)
+                    b = Nanner(BANANA, 25, 24)
                     all_sprites.add(o)
                     obstacle.add(o)
                     all_sprites.add(b)
@@ -214,7 +213,6 @@ while running:
         menu.show_menu_screen(screen, clock)
         reset()
         menu_screen = True
-
         
         bg.stop_music()
         bg.start_music()
@@ -242,6 +240,7 @@ while running:
     for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
         text_ouch.display_on(20)
         angerRises()
+        cat.screech.play(fade_ms=1).fadeout(1000)
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1
@@ -256,7 +255,6 @@ while running:
 
     # *after* drawing everything, flip the display
     pygame.display.flip()
-
 
 # Pygame end
 pygame.mixer.quit()

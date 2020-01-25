@@ -8,11 +8,12 @@ class Text(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.width = len(text)*size
         self.height = size
-        self.font = pygame.font.Font('freesansbold.ttf', size)
+        self.font = pygame.font.Font('slkscrb.ttf', size)
+        self.font.set_bold(True)
 
         self.image = self.font.render(text, True, BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (self.width, self.height)
+        self.rect.center = (horizontal_loc, vertical_loc)
 
         self.duration = 0
 
@@ -33,5 +34,3 @@ class Text(pygame.sprite.Sprite):
 
     def menu_show(self, screen):
         screen.blit(self.image, self.rect)
-
-
