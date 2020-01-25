@@ -27,7 +27,7 @@ class Rage_Bar(pygame.sprite.Sprite):
             pygame.draw.rect(screen, WHITE, self.outline_rect, 2)
             
         elif cat_class.anger > 25:
-            pygame.draw.rect(screen, GREEN, self.fill_rect)
+            pygame.draw.rect(screen, BANANA, self.fill_rect)
             pygame.draw.rect(screen, WHITE, self.outline_rect, 2)
 
         else:

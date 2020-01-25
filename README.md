@@ -24,4 +24,5 @@ Art:
 * **Cat sprites** - https://opengameart.org/content/cat-sprites
 * **Background image** - https://i.ytimg.com/vi/GPmRhW4RBY0/hqdefault.jpg
 * **Cat carrier** - https://res.cloudinary.com/pixel-art/image/upload/v1554279401/pet-carrier/1615227-pet-carrier-pixel-art.png
-**banana** - https://aminoapps.com/c/mario-kart/page/blog/banana-sprite/1k6e_pKS6uLBv0wn3XVE1r46KJVnnBwQxB 
+* **Orange** - https://res.cloudinary.com/pixel-art/image/upload/v1554322725/orange/1412532-orange-pixel-art.png
+* **Banana** - https://aminoapps.com/c/mario-kart/page/blog/banana-sprite/1k6e_pKS6uLBv0wn3XVE1r46KJVnnBwQxB 
