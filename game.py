@@ -93,7 +93,7 @@ bg.start_music()
 # Create functions
 def angerRises():
     cat.anger += 5
-
+    cat.screech.play(fade_ms=1)
 
 def madCat():
     cat.growl.play(fade_ms=1)
@@ -108,7 +108,7 @@ def create_orange():
 def reset():
     cat.anger = 0
     cat.level = 0
-    end_game_sit = 0
+    cat.end_game_sit = 0
     cat.direction_y = "UP"
     cat.direction_x = "LEFT"
     cat.running_sprite = cat.running_left[0]
@@ -125,8 +125,6 @@ def reset():
 ### Game loop ###
 running = True
 menu_screen = True
-
-
 
 while running:
     # variables being kept track of at the start of the game.
@@ -160,11 +158,10 @@ while running:
             running = False
 
         # clicking on cat
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            attitude = random.randint(1, 30)
+        if event.type == pygame.MOUSEBUTTONDOWN and cat.direction_x != "STOP" and cat.direction_y != "STOP":
+            attitude = random.randint(1, 15)
             x, y = event.pos
             if top_left.rect.collidepoint(x, y):
-                cat.change_direction('top_left')
                 if attitude == 1:
                     cat.anger += 5
                     text_attitude.display_on(20)
@@ -175,8 +172,9 @@ while running:
                         cat.change_direction('top_right')
                     if changeDir == 3:
                         cat.change_direction('bottom_right')
+                else:
+                    cat.change_direction('top_left', True)
             if top_right.rect.collidepoint(x, y):
-                cat.change_direction('top_right')
                 if attitude == 1:
                     cat.anger += 5
                     text_attitude.display_on(20)
@@ -187,8 +185,9 @@ while running:
                         cat.change_direction('top_left')
                     if changeDir == 3:
                         cat.change_direction('bottom_right')
+                else:
+                    cat.change_direction('top_right', True)
             if bottom_left.rect.collidepoint(x, y):
-                cat.change_direction('bottom_left')
                 if attitude == 1:
                     cat.anger += 5
                     text_attitude.display_on(20)
@@ -199,8 +198,9 @@ while running:
                         cat.change_direction('top_right')
                     if changeDir == 3:
                         cat.change_direction('bottom_right')
+                else:
+                    cat.change_direction('bottom_left', True)
             if bottom_right.rect.collidepoint(x, y):
-                cat.change_direction('bottom_right')
                 if attitude == 1:
                     cat.anger += 5
                     text_attitude.display_on(20)
@@ -211,14 +211,17 @@ while running:
                         cat.change_direction('top_right')
                     if changeDir == 3:
                         cat.change_direction('top_left')
+                else:
+                    cat.change_direction('bottom_right', True)
 
     # Message display if statements
     if cat.anger >= 100:
-        madCat()
+        if cat.end_game_sit == 0:
+            madCat()
         cat.direction_y = "STOP"
         cat.direction_x = "STOP"
-        end_game_sit += 1
-        if end_game_sit == 120:
+        cat.end_game_sit += 1
+        if cat.end_game_sit == 120:
             menu.change_level_screen(-1)
             menu.show_menu_screen(screen, clock)
             reset()
@@ -245,9 +248,7 @@ while running:
     text_attitude.display_check(screen)
 
     # Collision Check for obstacles
-    if cat.anger >= 100:
-        pass
-    else:
+    if cat.anger <= 100 and cat.direction_x != "STOP" and cat.direction_y != "STOP":
         for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
             text_ouch.display_on(20)
             angerRises()

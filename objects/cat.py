@@ -1,7 +1,6 @@
 import pygame
 from init.gameinitializers import *
 
-
 class Cat(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -12,8 +11,8 @@ class Cat(pygame.sprite.Sprite):
         self.image.convert_alpha()
         self.sitting = pygame.image.load(
             'images/catspritesx4-transparent-sitting.png')
-        self.waiting = pygame.image.load(
-            'images/catspritesx4-transparent-waiting.png')
+        self.staring = pygame.image.load(
+            'images/catspritesx4-transparent-staring.png')
         self.running_left = [pygame.image.load(
             'images/catspritesx4-transparent-running1.png'), pygame.image.load('images/catspritesx4-transparent-running2.png')]
         self.running_right = [pygame.transform.flip(
@@ -32,6 +31,7 @@ class Cat(pygame.sprite.Sprite):
         # Variables.
         self.anger = 0
         self.level = 0
+        self.end_game_sit = 0
 
     def update(self):
         # interact with screen edges
@@ -56,26 +56,29 @@ class Cat(pygame.sprite.Sprite):
             self.rect.y += 0
         self.movement()
 
-    def change_direction(self, point):
+    def change_direction(self, point, sound=False):
         if point == "top_left":
             self.direction_x = "RIGHT"
             self.direction_y = "DOWN"
-            self.meow.play()
+            if sound:
+                self.meow.play()
         elif point == "top_right":
             self.direction_x = "LEFT"
             self.direction_y = "DOWN"
-            self.meow.play()
+            if sound:
+                self.meow.play()
         elif point == "bottom_left":
             self.direction_x = "RIGHT"
             self.direction_y = "UP"
-            self.meow.play()
+            if sound:
+                self.meow.play()
         elif point == "bottom_right":
             self.direction_x = "LEFT"
             self.direction_y = "UP"
-            self.meow.play()
+            if sound:
+                self.meow.play()
 
     def movement(self):
-
         if self.rect.x % 30 == 0:
             if self.running_sprite == self.running_left[0] or self.running_sprite == self.running_right[0]:
                 if self.direction_x == "LEFT":
@@ -88,4 +91,7 @@ class Cat(pygame.sprite.Sprite):
                 elif self.direction_x == "RIGHT":
                     self.running_sprite = self.running_right[0]
         elif self.direction_x == "STOP" and self.direction_y == "STOP":
-            self.running_sprite = self.sitting
+            if self.end_game_sit <= 25:
+                self.running_sprite = self.sitting
+            else:
+                self.running_sprite = self.staring
