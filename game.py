@@ -260,7 +260,7 @@ while running:
             reset()
         menu_screen = True
         
-        goal.respawn()
+        goal.respawn(cat.rect.x, cat.rect.y)
         carrier.add(goal)
 
     # *after* drawing everything, flip the display
