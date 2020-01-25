@@ -59,4 +59,3 @@ CAT_SPEED = 5
 MENU_LIST = ['images/title-scren.png', 'images/level-2.png', 'images/level-3.png', 'images/level-4.png', 'images/level-5.png', 'images/level-6.png', 'images/level-7.png', 'images/level-8.png', 'images/level-9.png', 'images/level-10.png', 'images/you-win.png', 'images/you-lose.png']
 
 end_game_sit = 0
-
