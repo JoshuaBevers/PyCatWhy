@@ -234,14 +234,13 @@ while running:
 
     # Draw / render
     screen.blit(bg.background, bg.rect)
-    cattitude.draw_shield_bar(screen, cat)
+
     all_sprites.draw(screen)
     click_boxes.draw(screen)
-    
-
     screen.blit(goal.sprite, goal.rect)
-
     screen.blit(cat.running_sprite, cat.rect)
+
+    cattitude.draw_shield_bar(screen, cat)
 
     # Text checks
     text_ouch.display_check(screen)

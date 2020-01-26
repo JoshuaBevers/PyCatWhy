@@ -4,7 +4,7 @@ from init.gameinitializers import *
 class Background(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.background = pygame.image.load('images/bg-field-large.png')
+        self.background = pygame.image.load('images/bg-field-large2.png')
         self.rect = self.background.get_rect()
         self.rect.left, self.rect.top = (0, 0)
         self.music = pygame.mixer.music

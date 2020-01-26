@@ -56,6 +56,6 @@ FONT_HEIGHT_BOTTOM_B = (HEIGHT / 7) * 6
 CAT_START = (WIDTH // 2, HEIGHT // 2)
 CAT_SPEED = 5
 
-MENU_LIST = ['images/title-scren.png', 'images/level-2.png', 'images/level-3.png', 'images/level-4.png', 'images/level-5.png', 'images/level-6.png', 'images/level-7.png', 'images/level-8.png', 'images/level-9.png', 'images/level-10.png', 'images/you-win.png', 'images/you-lose.png']
+MENU_LIST = ['images/title-screen2.png', 'images/level2.png', 'images/level3.png', 'images/level4.png', 'images/level5.png', 'images/level6.png', 'images/level7.png', 'images/level8.png', 'images/level9.png', 'images/level10.png', 'images/you-win2.png', 'images/you-lose2.png']
 
 end_game_sit = 0
