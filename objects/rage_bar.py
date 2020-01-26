@@ -15,8 +15,8 @@ class Rage_Bar(pygame.sprite.Sprite):
         if cat_class.anger < 0:
             cat_class.anger = 0
         
-        self.fill = (cat_class.anger / 100) * self.BAR_WIDTH
-        self.fill_rect = pygame.Rect(self.x+3, self.y, self.fill, self.BAR_HEIGHT)
+        self.fill = (cat_class.anger / 100) * (self.BAR_WIDTH-2)
+        self.fill_rect = pygame.Rect(self.x+2, self.y, self.fill, self.BAR_HEIGHT)
 
         if cat_class.anger > 75:
             pygame.draw.rect(screen, RED, self.fill_rect)
