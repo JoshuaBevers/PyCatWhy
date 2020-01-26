@@ -17,18 +17,29 @@ class Carrier(pygame.sprite.Sprite):
         self.rect.y = random.randrange(self.height, HEIGHT-self.height)
 
     def respawn(self, cat_x, cat_y):
-        if cat_x < WIDTH // 2 and cat_y < HEIGHT // 2:
-            self.rect.x = random.randrange(WIDTH//2, WIDTH-self.width)
-            self.rect.y = random.randrange(HEIGHT//2, HEIGHT-self.height)
-        elif cat_x > WIDTH // 2 and cat_y < HEIGHT // 2:
-            self.rect.x = random.randrange(WIDTH//2)
-            self.rect.y = random.randrange(HEIGHT//2, HEIGHT-self.height)
-        elif cat_x > WIDTH // 2 and cat_y > HEIGHT // 2:
-            self.rect.x = random.randrange(WIDTH//2)
-            self.rect.y = random.randrange(self.height, HEIGHT//2)
-        elif cat_x < WIDTH // 2 and cat_y > HEIGHT // 2:
-            self.rect.x = random.randrange(WIDTH//2, WIDTH-self.width)
-            self.rect.y = random.randrange(self.height, HEIGHT//2)
-        else:
-            self.rect.x = random.randrange(WIDTH-self.width)
-            self.rect.y = random.randrange(self.height, HEIGHT-self.height)
+        # if cat_x < WIDTH // 2 and cat_y < HEIGHT // 2:
+        #     self.rect.x = random.randrange(WIDTH//2, WIDTH-self.width)
+        #     self.rect.y = random.randrange(HEIGHT//2, HEIGHT-self.height)
+        # elif cat_x > WIDTH // 2 and cat_y < HEIGHT // 2:
+        #     self.rect.x = random.randrange(WIDTH//2)
+        #     self.rect.y = random.randrange(HEIGHT//2, HEIGHT-self.height)
+        # elif cat_x > WIDTH // 2 and cat_y > HEIGHT // 2:
+        #     self.rect.x = random.randrange(WIDTH//2)
+        #     self.rect.y = random.randrange(self.height, HEIGHT//2)
+        # elif cat_x < WIDTH // 2 and cat_y > HEIGHT // 2:
+        #     self.rect.x = random.randrange(WIDTH//2, WIDTH-self.width)
+        #     self.rect.y = random.randrange(self.height, HEIGHT//2)
+        # else:
+        #     self.rect.x = random.randrange(WIDTH-self.width)
+        #     self.rect.y = random.randrange(self.height, HEIGHT-self.height)
+        while True:
+            x = random.randint(0, WIDTH-self.width)
+            if cat_x < x - WIDTH//6 or cat_x > x + WIDTH//6:
+                self.rect.x = x
+                break
+
+        while True:
+            y = random.randint(self.height, HEIGHT-self.height)
+            if cat_y < y - HEIGHT//6 or cat_y > y + HEIGHT//6:
+                self.rect.y = y
+                break
