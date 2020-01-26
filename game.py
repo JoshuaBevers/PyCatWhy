@@ -43,9 +43,9 @@ bg = Background()
 cattitude = Rage_Bar()
 cat = Cat()
 goal = Carrier()
-orange = Orange(POWER, 40, 40)
+orange = Orange(POWER, 40, 40, cat)
 menu = Menu(0)
-banana = Nanner(BANANA, 50, 50)
+banana = Nanner(BANANA, 50, 50, cat)
 
 top_left = Click_Box('top_left')
 top_right = Click_Box('top_right')
@@ -142,8 +142,8 @@ while running:
             for i in range(cat.level):
                 if cat.level > (len(obstacle)-(cat.anger // 5)):
                     
-                    o = Orange(POWER, 20, 15)
-                    b = Nanner(BANANA, 25, 24)
+                    o = Orange(POWER, 20, 15, cat)
+                    b = Nanner(BANANA, 25, 24, cat)
                     all_sprites.add(o)
                     obstacle.add(o)
                     all_sprites.add(b)
