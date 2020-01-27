@@ -45,6 +45,7 @@ Created by Zach Barbre, Karley Petracca, and Josh Bevers
 * **Flowers** - https://opengameart.org/content/lpc-flower-grow-cycle
 * **Cat in carrier on menu**- https://www.bluecrossanimalhospital.ca/wp-content/uploads/2016/10/Black-cat-carrier-moving.jpg
 
+---
 
 ## License
 MIT License
