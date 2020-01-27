@@ -2,6 +2,7 @@ import pygame
 import random
 from init.gameinitializers import *
 
+
 def set_start_x(cat):
     while True:
         x = random.randint(0, WIDTH)

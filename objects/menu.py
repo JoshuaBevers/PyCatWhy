@@ -10,6 +10,7 @@ class Menu(pygame.sprite.Sprite):
         self.rect = self.background.get_rect()
         self.rect.topleft = (0, 0)
         
+
     def show_menu_screen(self, screen, clock):
         screen.blit(self.background, self.rect)
         pygame.display.flip()
@@ -23,18 +24,6 @@ class Menu(pygame.sprite.Sprite):
                 # click the mouse to start
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     waiting = False
-
-        
-
-
-    # def draw_text(surf, text, size, x, y):
-    #     font_name = pygame.font.match_font('arial')
-
-    #     font = pygame.font.Font(font_name, size)
-    #     text_surface = font.render(text, True, WHITE)
-    #     text_rect = text_surface.get_rect()
-    #     text_rect.midtop = (x, y)
-    #     surf.blit(text_surface, text_rect)
 
     def change_level_screen(self, new_cat_level):
         self.background = pygame.image.load(self.menu_list[new_cat_level])

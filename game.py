@@ -15,22 +15,24 @@ from objects.text import *
 from pygame.locals import *
 from objects.orange import *
 
+
 # JOKE DEMO ERROR CODE
-
 ohno = input(bcolors.WARNING +
              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
 
 ohno = input(bcolors.WARNING +
              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+
 
 # Init setup
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("PyCatWhy?!?")
+pygame.display.set_caption("PyCatWhy!?!")
 clock = pygame.time.Clock()
 running = True
 menu_screen = True
+
 
 # Variable setups
 SPAWN_SPEED = 1000
@@ -46,6 +48,7 @@ text_end_top = Text("The cat has fucked off!", 50,
                     FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 text_end_bottom = Text("You lose.", 20, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 
+
 # Event creation
 spawn_orange = pygame.USEREVENT + 1
 pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
@@ -56,14 +59,11 @@ bg = Background()
 cattitude = Rage_Bar()
 cat = Cat()
 goal = Carrier()
-orange = Orange(POWER, 40, 40, cat)
-banana = Nanner(BANANA, 50, 50, cat)
 menu = Menu(0)
 
 # All sprites group set
 all_sprites = pygame.sprite.Group()
 all_sprites.add(cat)
-all_sprites.add(goal)
 
 # Obstacle group set
 obstacle = pygame.sprite.Group()
@@ -94,22 +94,18 @@ def angerRises(num):
     cat.anger += num
     cat.screech.play(fade_ms=1)
 
-
 def spawn_banana():
     b = Nanner(BANANA, 25, 24, cat)
     all_sprites.add(b)
     banana.add(b)
-
 
 def create_orange():
     o = Orange(POWER, 20, 15, cat)
     all_sprites.add(o)
     obstacle.add(o)
 
-
 def madCat():
     cat.growl.play(fade_ms=1)
-
 
 def reset():
     cat.anger = 0
@@ -118,23 +114,23 @@ def reset():
     cat.direction_y = "UP"
     cat.direction_x = "LEFT"
     cat.running_sprite = cat.running_left[0]
-    obstacle.empty()
     all_sprites.empty()
     all_sprites.add(cat)
     all_sprites.add(goal)
-    obstacle.add(orange)
-    obstacle.add(banana)
+    obstacle.empty()
+    banana.empty()
     menu.change_level_screen(cat.level)
 
 
 ### Game loop ###
 while running:
-    # variables being kept track of at the start of the game.
+    # Variables being kept track of at the start of the game.
     start_ticks = pygame.time.get_ticks()
-    # Keep loop running at the right speed
-    clock.tick(FPS)
-    # Process input (events)
 
+    # Loop speed
+    clock.tick(FPS)
+
+    # Process input (events)
     if menu_screen:
         menu.show_menu_screen(screen, clock)
         menu_screen = False
@@ -154,7 +150,7 @@ while running:
         elif event.type == pygame.QUIT:
             running = False
 
-        # clicking on cat
+        # Clicking on cat
         if event.type == pygame.MOUSEBUTTONDOWN and cat.direction_x != "STOP" and cat.direction_y != "STOP":
             attitude = random.randint(1, 15)
             x, y = event.pos
@@ -249,7 +245,10 @@ while running:
             angerRises(5)
         for unit in pygame.sprite.groupcollide(player, banana, False, True):
             text_ouch.display_on(20)
-            angerRises(10)
+            if cat.anger >= 95:
+                angerRises(5)
+            else:
+                angerRises(10)
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1
@@ -262,7 +261,7 @@ while running:
         goal.respawn(cat.rect.x, cat.rect.y)
         carrier.add(goal)
 
-    # *after* drawing everything, flip the display
+    # Flip the display
     pygame.display.flip()
 
 # Pygame end
