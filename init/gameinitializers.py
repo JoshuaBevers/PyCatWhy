@@ -11,6 +11,7 @@ from pygame.locals import (
 )
 import pygame
 
+
 # define colors
 
 
@@ -56,6 +57,10 @@ FONT_HEIGHT_BOTTOM_B = (HEIGHT / 7) * 6
 CAT_START = (WIDTH // 2, HEIGHT // 2)
 CAT_SPEED = 5
 
-MENU_LIST = ['images/title-screen2.png', 'images/level2.png', 'images/level3.png', 'images/level4.png', 'images/level5.png', 'images/level6.png', 'images/level7.png', 'images/level8.png', 'images/level9.png', 'images/level10.png', 'images/you-win2.png', 'images/you-lose2.png']
+MENU_LIST = ['images/title-screen2.png', 'images/level2.png', 'images/level3.png', 'images/level4.png', 'images/level5.png', 'images/level6.png',
+             'images/level7.png', 'images/level8.png', 'images/level9.png', 'images/level10.png', 'images/you-win2.png', 'images/you-lose2.png']
 
 end_game_sit = 0
+
+
+# objects init

@@ -10,6 +10,7 @@ def set_start_x(cat):
             return x
             break
 
+
 def set_start_y(cat):
     while True:
         y = random.randint(0, HEIGHT)
@@ -50,9 +51,6 @@ class Orange(pygame.sprite.Sprite):
             self.rect.y -= 5
             if self.rect.top <= 0:
                 self.direction_y = "DOWN"
-        
+
     def die(self):
         pygame.sprite.Sprite.kill(self)
-    
-
-    
