@@ -15,26 +15,39 @@ from objects.text import *
 from pygame.locals import *
 from objects.orange import *
 
+# JOKE DEMO ERROR CODE
 
-# DEMO ERROR CODE
+ohno = input(bcolors.WARNING +
+             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
 
-# ohno = input(bcolors.WARNING +
-#              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
+ohno = input(bcolors.WARNING +
+             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
 
-# ohno = input(bcolors.WARNING +
-#              "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
-
-
+# Init setup
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("PyCatWhy?!?")
+clock = pygame.time.Clock()
+running = True
+menu_screen = True
+
+# Variable setups
 SPAWN_SPEED = 1000
+top_left = Click_Box('top_left')
+top_right = Click_Box('top_right')
+bottom_left = Click_Box('bottom_left')
+bottom_right = Click_Box('bottom_right')
 
+text_ouch = Text("Meowch!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
+text_attitude = Text("This cat has attitude!", 30,
+                     FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T+30)
+text_end_top = Text("The cat has fucked off!", 50,
+                    FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
+text_end_bottom = Text("You lose.", 20, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
 
-# timer var
+# Event creation
 spawn_orange = pygame.USEREVENT + 1
-
 pygame.time.set_timer(spawn_orange + 1, SPAWN_SPEED)
 
 
@@ -44,21 +57,8 @@ cattitude = Rage_Bar()
 cat = Cat()
 goal = Carrier()
 orange = Orange(POWER, 40, 40, cat)
-menu = Menu(0)
 banana = Nanner(BANANA, 50, 50, cat)
-
-top_left = Click_Box('top_left')
-top_right = Click_Box('top_right')
-bottom_left = Click_Box('bottom_left')
-bottom_right = Click_Box('bottom_right')
-
-text_ouch = Text("Meowch!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
-text_attitude = Text("This cat has attitude!", 30, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T+30)
-text_end_top = Text("The cat has fucked off!", 50, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
-text_end_bottom = Text("You lose.", 20, FONT_WIDTH_CENTER, FONT_HEIGHT_TOP_T)
-
-clock = pygame.time.Clock()
-
+menu = Menu(0)
 
 # All sprites group set
 all_sprites = pygame.sprite.Group()
@@ -67,8 +67,7 @@ all_sprites.add(goal)
 
 # Obstacle group set
 obstacle = pygame.sprite.Group()
-obstacle.add(orange)
-obstacle.add(banana)
+banana = pygame.sprite.Group()
 
 # Player group set
 player = pygame.sprite.Group()
@@ -91,19 +90,26 @@ bg.start_music()
 
 
 # Create functions
-def angerRises():
-    cat.anger += 5
+def angerRises(num):
+    cat.anger += num
     cat.screech.play(fade_ms=1)
+
+
+def spawn_banana():
+    b = Nanner(BANANA, 25, 24, cat)
+    all_sprites.add(b)
+    banana.add(b)
+
+
+def create_orange():
+    o = Orange(POWER, 20, 15, cat)
+    all_sprites.add(o)
+    obstacle.add(o)
+
 
 def madCat():
     cat.growl.play(fade_ms=1)
 
-def angerCheck():
-    if cat.anger >= 100:
-        print("This rage cannot be contained!")
-
-def create_orange():
-    all_sprites.add(orange)
 
 def reset():
     cat.anger = 0
@@ -114,18 +120,14 @@ def reset():
     cat.running_sprite = cat.running_left[0]
     obstacle.empty()
     all_sprites.empty()
-
     all_sprites.add(cat)
     all_sprites.add(goal)
     obstacle.add(orange)
     obstacle.add(banana)
     menu.change_level_screen(cat.level)
 
-    
-### Game loop ###
-running = True
-menu_screen = True
 
+### Game loop ###
 while running:
     # variables being kept track of at the start of the game.
     start_ticks = pygame.time.get_ticks()
@@ -140,18 +142,13 @@ while running:
     for event in pygame.event.get():
         if event.type == spawn_orange + 1:
             for i in range(cat.level):
-                if cat.level > (len(obstacle)-(cat.anger // 5)):
-                    
-                    o = Orange(POWER, 20, 15, cat)
-                    b = Nanner(BANANA, 25, 24, cat)
-                    all_sprites.add(o)
-                    obstacle.add(o)
-                    all_sprites.add(b)
-                    obstacle.add(b)
+                if cat.level >= 1:
+                    if len(obstacle) < (cat.level + (cat.anger // 5)):
+                        create_orange()
+                if cat.level >= 3:
+                    if len(banana) < (cat.level):
+                        spawn_banana()
 
-                # calling the function wheever we get timer event.
-
-        # check for closing window
         if event.type == KEYDOWN and event.key == K_ESCAPE:
             running = False
         elif event.type == pygame.QUIT:
@@ -227,7 +224,6 @@ while running:
             reset()
             menu_screen = True
 
-
     # Update
     all_sprites.update()
     click_boxes.update(cat)
@@ -250,7 +246,10 @@ while running:
     if cat.anger <= 100 and cat.direction_x != "STOP" and cat.direction_y != "STOP":
         for unit in pygame.sprite.groupcollide(player, obstacle, False, True):
             text_ouch.display_on(20)
-            angerRises()
+            angerRises(5)
+        for unit in pygame.sprite.groupcollide(player, banana, False, True):
+            text_ouch.display_on(20)
+            angerRises(10)
 
     for unit in pygame.sprite.groupcollide(player, carrier, False, True):
         cat.level += 1
@@ -259,7 +258,7 @@ while running:
             menu.show_menu_screen(screen, clock)
             reset()
         menu_screen = True
-        
+
         goal.respawn(cat.rect.x, cat.rect.y)
         carrier.add(goal)
 
