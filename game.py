@@ -16,14 +16,6 @@ from pygame.locals import *
 from objects.orange import *
 
 
-# JOKE DEMO ERROR CODE
-ohno = input(bcolors.WARNING +
-             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
-
-ohno = input(bcolors.WARNING +
-             "File 'game.py', \n line 34 goal = Carrier() \n ^ \n SyntaxError: invalid syntax \n " + bcolors.ENDC + "Joshuas-MacBook-Pro:pygame joshuabevers$ ")
-
-
 # Init setup
 pygame.init()
 pygame.mixer.init(44100, -16, 2, 2048)
