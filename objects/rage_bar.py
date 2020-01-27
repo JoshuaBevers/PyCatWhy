@@ -14,6 +14,7 @@ class Rage_Bar(pygame.sprite.Sprite):
         self.fill_rect = pygame.Rect(
             self.x+3, self.y, self.fill, self.BAR_HEIGHT)
 
+
     def draw_shield_bar(self, screen, cat_class):
         if cat_class.anger < 0:
             cat_class.anger = 0

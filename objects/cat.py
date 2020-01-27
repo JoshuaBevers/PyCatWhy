@@ -34,6 +34,7 @@ class Cat(pygame.sprite.Sprite):
         self.level = 0
         self.end_game_sit = 0
 
+
     def update(self):
         # interact with screen edges
         if self.direction_x == "RIGHT":

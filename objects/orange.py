@@ -10,13 +10,19 @@ def set_start_x(cat):
             return x
             break
 
-
 def set_start_y(cat):
     while True:
         y = random.randint(0, HEIGHT)
         if y < cat.rect.top - cat.height or y > cat.rect.bottom + cat.height:
             return y
             break
+
+def random_spawn():
+    num = random.randint(1, 2)
+    if num == 1:
+        return ["LEFT", "UP"]
+    if num == 2:
+        return ["RIGHT", "DOWN"]
 
 
 class Orange(pygame.sprite.Sprite):
@@ -31,8 +37,8 @@ class Orange(pygame.sprite.Sprite):
         self.rect.x = set_start_x(cat)
         self.rect.y = set_start_y(cat)
 
-        self.direction_x = "LEFT"
-        self.direction_y = "UP"
+        self.direction_x = random_spawn()[0]
+        self.direction_y = random_spawn()[1]
 
     def update(self):
         if self.direction_x == "LEFT":

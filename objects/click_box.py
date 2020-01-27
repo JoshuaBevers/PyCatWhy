@@ -20,6 +20,7 @@ class Click_Box(pygame.sprite.Sprite):
         else:
             self.rect.topleft = CAT_START
 
+
     def update(self, cat):
         if self.location == 'top_left':
             self.rect.bottomright = cat.rect.center

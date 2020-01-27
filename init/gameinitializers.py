@@ -12,9 +12,7 @@ from pygame.locals import (
 import pygame
 
 
-# define colors
-
-
+# Define colors
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -25,7 +23,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -35,12 +32,12 @@ CLEAR = (0, 0, 0, 0)
 POWER = (200, 100, 10)
 BANANA = (227, 207, 87)
 
-# define game screen sizing and fps
+# Define game screen sizing and fps
 WIDTH = 780
 HEIGHT = 780
 FPS = 40
 
-# define optional font locations
+# Define optional font locations
 FONT_WIDTH_CENTER = (WIDTH / 2)
 FONT_WIDTH_LEFT = (WIDTH / 4) * 1
 FONT_WIDTH_RIGHT = (WIDTH / 4) * 3
@@ -53,14 +50,13 @@ FONT_HEIGHT_BOTTOM_T = (HEIGHT / 7) * 4
 FONT_HEIGHT_BOTTOM_C = (HEIGHT / 7) * 5
 FONT_HEIGHT_BOTTOM_B = (HEIGHT / 7) * 6
 
-# define the cat start point and speed
+# Define the cat start point and speed
 CAT_START = (WIDTH // 2, HEIGHT // 2)
 CAT_SPEED = 5
 
+# Define menu and level image order
 MENU_LIST = ['images/title-screen2.png', 'images/level2.png', 'images/level3.png', 'images/level4.png', 'images/level5.png', 'images/level6.png',
              'images/level7.png', 'images/level8.png', 'images/level9.png', 'images/level10.png', 'images/you-win2.png', 'images/you-lose2.png']
 
+# Predefine variable for cat sprite changes at end game
 end_game_sit = 0
-
-
-# objects init
